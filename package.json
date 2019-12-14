@@ -1,0 +1,40 @@
+{
+  "name": "rx-metronome",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --open",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ydubinskyi/rx-metronome.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ydubinskyi/rx-metronome/issues"
+  },
+  "homepage": "https://github.com/ydubinskyi/rx-metronome#readme",
+  "dependencies": {
+    "lit-element": "^2.2.1",
+    "rxjs": "^6.5.3"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^3.2.0",
+    "husky": "^3.1.0",
+    "prettier": "^1.19.1",
+    "pretty-quick": "^2.0.1",
+    "ts-loader": "^6.2.1",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "typescript": "^3.7.3",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
+  }
+}
