@@ -12,11 +12,13 @@ class MyAppElement extends LitElement {
       :host {
         --primary-color: #302ae6;
         --secondary-color: #536390;
-        --font-color: #424242;
-        --bg-color: #fafafa;
+        --text-color: #424242;
+        --app-bg-color: #fafafa;
+        --bg-color: #ffffff;
         --heading-color: #292922;
 
-        background-color: var(--bg-color);
+        background-color: var(--app-bg-color);
+        color: var(--text-color);
         display: flex;
         height: 100vh;
         width: 100%;
@@ -25,8 +27,9 @@ class MyAppElement extends LitElement {
       :host([dark-theme]) {
         --primary-color: #9a97f3;
         --secondary-color: #818cab;
-        --font-color: #e1e1ff;
-        --bg-color: #161625;
+        --text-color: #e1e1ff;
+        --app-bg-color: #121212;
+        --bg-color: #2d2d2d;
         --heading-color: #818cab;
       }
     `;

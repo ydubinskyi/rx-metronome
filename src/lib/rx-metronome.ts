@@ -2,6 +2,8 @@ import {css, customElement, html, LitElement, property} from 'lit-element';
 import {BehaviorSubject, combineLatest, NEVER, timer} from 'rxjs';
 import {distinctUntilChanged, pluck, scan, shareReplay, startWith, switchMap} from 'rxjs/operators';
 
+import '@material/mwc-button';
+
 import './ticker';
 
 @customElement('rx-metronome')
@@ -91,7 +93,7 @@ class RxMetronomeElement extends LitElement {
         max-width: 480px;
         margin: 24px auto;
         border-radius: 4px;
-        background: #fff;
+        background: var(--bg-color);
         box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
           0px 1px 3px 0px rgba(0, 0, 0, 0.12);
       }
@@ -110,6 +112,11 @@ class RxMetronomeElement extends LitElement {
         border: 0;
         font-size: 14px;
       }
+
+      mwc-button {
+        --mdc-theme-primary: var(--primary-color);
+        --mdc-theme-on-primary: var(--text-color);
+      }
     `;
   }
 
@@ -122,15 +129,21 @@ class RxMetronomeElement extends LitElement {
         <input .value="${this.beatsPerBar.toString()}" @change="${this.onBeatsPerBarChange}" />
       </div>
       <div class="buttons">
-        <button ?disabled="${this.isTicking}" @click="${this.onStartCLick}">
-          Start
-        </button>
-        <button ?disabled="${!this.isTicking}" @click="${this.onStopCLick}">
-          Stop
-        </button>
-        <button @click="${this.onResetClick}">
-          Reset
-        </button>
+        <mwc-button
+          outlined
+          label="start"
+          icon="play_arrow"
+          ?disabled="${this.isTicking}"
+          @click="${this.onStartCLick}"
+        ></mwc-button>
+        <mwc-button
+          outlined
+          label="stop"
+          icon="stop"
+          ?disabled="${!this.isTicking}"
+          @click="${this.onStopCLick}"
+        ></mwc-button>
+        <mwc-button outlined label="Reset" icon="clear" @click="${this.onResetClick}"></mwc-button>
       </div>
     `;
   }
