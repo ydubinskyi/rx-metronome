@@ -15,42 +15,38 @@ class RxTickerElement extends LitElement {
   static get styles() {
     return css`
       :host {
-        display: block;
-        width: 100%;
-      }
-
-      ul {
-        list-style-type: none;
         display: flex;
-        width: 100%;
         justify-content: space-evenly;
-        margin: 0;
-        padding: 16px 0;
+        width: 100%;
       }
 
-      li {
-        display: block;
-        background-color: green;
-        height: 12px;
-        width: 12px;
-        border-radius: 50%;
+      div {
+        flex: 1;
+        margin-right: 8px;
+        padding: 8px;
+        border-radius: 4px;
+        border: 2px solid var(--primary-color);
+        text-align: center;
       }
 
-      li[active] {
-        background-color: red;
+      div:last-of-type {
+        margin-right: 0;
+      }
+
+      div[active] {
+        color: #ffffff;
+        background-color: var(--primary-color);
       }
     `;
   }
 
   public render() {
     return html`
-      <ul>
-        ${this.items.map(
-          (i) => html`
-            <li ?active="${i + 1 === this.counter}"></li>
-          `,
-        )}
-      </ul>
+      ${this.items.map(
+        (i) => html`
+          <div ?active="${i + 1 === this.counter}">${i + 1}</div>
+        `,
+      )}
     `;
   }
 }

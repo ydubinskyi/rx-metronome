@@ -3,6 +3,7 @@ import {BehaviorSubject, combineLatest, NEVER, timer} from 'rxjs';
 import {distinctUntilChanged, pluck, scan, shareReplay, startWith, switchMap} from 'rxjs/operators';
 
 import '@material/mwc-button';
+import '@material/mwc-textfield';
 
 import './ticker';
 
@@ -90,43 +91,51 @@ class RxMetronomeElement extends LitElement {
         align-content: center;
         align-items: center;
         width: 100%;
-        max-width: 480px;
-        margin: 24px auto;
-        border-radius: 4px;
-        background: var(--bg-color);
-        box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
-          0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+      }
+
+      .config-inputs {
+        padding: 16px 0;
       }
 
       .buttons {
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
-        padding: 16px 0;
         width: 100%;
-      }
-
-      .buttons button {
-        display: block;
-        padding: 8px 16px;
-        border: 0;
-        font-size: 14px;
       }
 
       mwc-button {
         --mdc-theme-primary: var(--primary-color);
         --mdc-theme-on-primary: var(--text-color);
       }
+
+      mwc-textfield {
+        --mdc-theme-primary: var(--primary-color);
+      }
     `;
   }
 
   public render() {
     return html`
-      <h2>Metronome</h2>
       <rx-ticker .beatsPerBar="${this.beatsPerBar}" .counter="${this.counter}"></rx-ticker>
       <div class="config-inputs">
-        <input .value="${this.beatsPerMinute.toString()}" @change="${this.onBeatsPerMinuteChange}" />
-        <input .value="${this.beatsPerBar.toString()}" @change="${this.onBeatsPerBarChange}" />
+        <mwc-textfield
+          type="number"
+          min="10"
+          max="240"
+          label="Beats per minute"
+          .value="${this.beatsPerMinute.toString()}"
+          @change="${this.onBeatsPerMinuteChange}"
+        ></mwc-textfield>
+        </mwc-slider>
+        <mwc-textfield
+          type="number"
+          min="2"
+          max="6"
+          label="Beats per bar"
+          .value="${this.beatsPerBar.toString()}"
+          @change="${this.onBeatsPerBarChange}"
+        ></mwc-textfield>
       </div>
       <div class="buttons">
         <mwc-button
