@@ -10,6 +10,8 @@ import '@material/mwc-button';
 import '@material/mwc-textfield';
 import './rx-ticker.element';
 
+import './sounds/bip.mp3';
+
 type HTMLElementEvent<T extends HTMLElement> = Event & {
   target: T;
 };
@@ -50,10 +52,12 @@ class RxMetronomeElement extends LitElement {
   );
 
   private unsubscribe$ = new Subject();
+  private bipAudio: HTMLAudioElement;
 
   public connectedCallback() {
     super.connectedCallback();
 
+    this.initSounds();
     this.subscribeProps();
   }
 
@@ -123,6 +127,10 @@ class RxMetronomeElement extends LitElement {
 
       mwc-textfield {
         --mdc-theme-primary: var(--primary-color);
+        --mdc-text-field-ink-color: var(--text-color);
+        --mdc-text-field-outlined-idle-border-color: var(--text-color);
+        --mdc-text-field-outlined-hover-border-color: var(--text-color);
+        --mdc-text-field-label-ink-color: var(--text-color);
 
         flex: 1;
       }
@@ -137,6 +145,7 @@ class RxMetronomeElement extends LitElement {
           type="number"
           min="10"
           max="240"
+          outlined 
           label="Beats per minute"
           .value="${this.beatsPerMinute.toString()}"
           @change="${this.onBeatsPerMinuteChange}"
@@ -146,6 +155,7 @@ class RxMetronomeElement extends LitElement {
           type="number"
           min="2"
           max="6"
+          outlined 
           label="Beats per bar"
           .value="${this.beatsPerBar.toString()}"
           @change="${this.onBeatsPerBarChange}"
@@ -174,12 +184,20 @@ class RxMetronomeElement extends LitElement {
     this.isTicking$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => (this.isTicking = value));
     this.beatsPerMinute$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => (this.beatsPerMinute = value));
     this.beatsPerBar$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => (this.beatsPerBar = value));
-    this.counter$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => (this.counter = value));
+    this.counter$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => {
+      this.counter = value;
+      this.bipAudio.play();
+    });
 
     this.counterUpdateTrigger$.pipe(takeUntil(this.unsubscribe$)).subscribe(() =>
       this.metronomeStateCommandBus$.next({
         counter: this.counter < this.beatsPerBar ? this.counter + 1 : 1,
       }),
     );
+  }
+
+  private initSounds() {
+    this.bipAudio = new Audio('sounds/bip.mp3');
+    this.bipAudio.load();
   }
 }
