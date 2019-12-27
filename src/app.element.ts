@@ -56,7 +56,7 @@ class MyAppElement extends LitElement {
           0px 1px 3px 0px rgba(0, 0, 0, 0.12);
         max-width: 480px;
         margin: 16px auto;
-        padding: 16px;
+        padding: 16px 12px;
       }
     `;
   }

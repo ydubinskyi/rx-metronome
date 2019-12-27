@@ -22,7 +22,7 @@ class RxTickerElement extends LitElement {
 
       div {
         flex: 1;
-        margin-right: 8px;
+        margin: 0 4px;
         padding: 8px;
         border-radius: 0;
         border: 1px solid var(--primary-color);
@@ -35,7 +35,6 @@ class RxTickerElement extends LitElement {
 
       div:last-of-type {
         border-radius: 0 4px 4px 0;
-        margin-right: 0;
       }
 
       div[active] {
