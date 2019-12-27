@@ -64,7 +64,7 @@ class MyAppElement extends LitElement {
   public render() {
     return html`
       <mwc-top-app-bar dense>
-        <div slot="title">Rx-metronome</div>
+        <div slot="title">rx-metronome</div>
         <mwc-icon-button
           icon="brightness_2"
           slot="actionItems"
