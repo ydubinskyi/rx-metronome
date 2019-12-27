@@ -8,7 +8,7 @@ import {IMetronomeState} from './metronome-state.interface';
 
 import '@material/mwc-button';
 import '@material/mwc-textfield';
-import './ticker';
+import './rx-ticker.element';
 
 type HTMLElementEvent<T extends HTMLElement> = Event & {
   target: T;

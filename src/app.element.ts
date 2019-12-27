@@ -3,7 +3,7 @@ import {css, customElement, html, LitElement, property} from 'lit-element';
 import '@material/mwc-icon-button';
 import '@material/mwc-top-app-bar';
 
-import './lib/rx-metronome';
+import './lib/rx-metronome.element';
 
 @customElement('my-app')
 class MyAppElement extends LitElement {
@@ -65,23 +65,12 @@ class MyAppElement extends LitElement {
     return html`
       <mwc-top-app-bar dense>
         <div slot="title">Rx-metronome</div>
-        ${this.darkTheme
-          ? html`
-              <mwc-icon-button
-                icon="brightness_5"
-                slot="actionItems"
-                @click="${this.toggleDarkMode}"
-                title="Enable bright mode"
-              ></mwc-icon-button>
-            `
-          : html`
-              <mwc-icon-button
-                icon="brightness_2"
-                slot="actionItems"
-                @click="${this.toggleDarkMode}"
-                title="Enable dark mode"
-              ></mwc-icon-button>
-            `}
+        <mwc-icon-button
+          icon="brightness_2"
+          slot="actionItems"
+          @click="${this.toggleDarkMode}"
+          title="${this.darkTheme ? 'Switch to bright mode' : 'Switch to bright mode'}"
+        ></mwc-icon-button>
       </mwc-top-app-bar>
       <div class="card">
         <rx-metronome></rx-metronome>
