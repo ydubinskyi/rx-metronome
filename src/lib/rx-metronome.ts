@@ -1,18 +1,18 @@
-import {css, customElement, html, LitElement, property} from 'lit-element';
+import {TextField} from '@material/mwc-textfield';
+import {css, customElement, eventOptions, html, LitElement, property} from 'lit-element';
 import {BehaviorSubject, combineLatest, NEVER, Observable, Subject, timer} from 'rxjs';
 import {distinctUntilChanged, pluck, scan, shareReplay, switchMap, takeUntil} from 'rxjs/operators';
 
+import {Command} from './command.type';
+import {IMetronomeState} from './metronome-state.interface';
+
 import '@material/mwc-button';
 import '@material/mwc-textfield';
-
 import './ticker';
 
-interface IMetronomeState {
-  beatsPerBar: number;
-  beatsPerMinute: number;
-  counter: number;
-  isTicking: boolean;
-}
+type HTMLElementEvent<T extends HTMLElement> = Event & {
+  target: T;
+};
 
 @customElement('rx-metronome')
 class RxMetronomeElement extends LitElement {
@@ -35,9 +35,7 @@ class RxMetronomeElement extends LitElement {
     counter: 1,
     isTicking: false,
   };
-  public metronomeStateCommandBus$: BehaviorSubject<Partial<IMetronomeState>> = new BehaviorSubject(
-    this.initMetronomeState,
-  );
+  public metronomeStateCommandBus$: BehaviorSubject<Command> = new BehaviorSubject(this.initMetronomeState);
   public metronomeState$: Observable<IMetronomeState> = this.metronomeStateCommandBus$.pipe(
     scan((metronomeState: IMetronomeState, command) => ({...metronomeState, ...command})),
     shareReplay(1),
@@ -47,7 +45,6 @@ class RxMetronomeElement extends LitElement {
   public beatsPerMinute$ = this.metronomeState$.pipe(pluck('beatsPerMinute'), distinctUntilChanged<number>());
   public beatsPerBar$ = this.metronomeState$.pipe(pluck('beatsPerBar'), distinctUntilChanged<number>());
   public counter$ = this.metronomeState$.pipe(pluck('counter'), distinctUntilChanged<number>());
-
   public counterUpdateTrigger$ = combineLatest([this.isTicking$, this.beatsPerMinute$]).pipe(
     switchMap(([isTicking, beatsPerMinute]) => (isTicking ? timer(0, 1000 * (60 / beatsPerMinute)) : NEVER)),
   );
@@ -67,23 +64,28 @@ class RxMetronomeElement extends LitElement {
     super.disconnectedCallback();
   }
 
-  public onStartCLick() {
+  @eventOptions({passive: true})
+  public onStartClick() {
     this.dispatchCommand({isTicking: true});
   }
 
-  public onStopCLick() {
+  @eventOptions({passive: true})
+  public onStopClick() {
     this.dispatchCommand({isTicking: false});
   }
 
+  @eventOptions({passive: true})
   public onResetClick() {
     this.dispatchCommand(this.initMetronomeState);
   }
 
-  public onBeatsPerMinuteChange({target: {value}}) {
+  @eventOptions({passive: true})
+  public onBeatsPerMinuteChange({target: {value}}: HTMLElementEvent<TextField>) {
     this.dispatchCommand({beatsPerMinute: Number(value)});
   }
 
-  public onBeatsPerBarChange({target: {value}}) {
+  @eventOptions({passive: true})
+  public onBeatsPerBarChange({target: {value}}: HTMLElementEvent<TextField>) {
     this.dispatchCommand({beatsPerBar: Number(value)});
   }
 
@@ -147,22 +149,22 @@ class RxMetronomeElement extends LitElement {
           label="start"
           icon="play_arrow"
           ?disabled="${this.isTicking}"
-          @click="${this.onStartCLick}"
+          @click="${this.onStartClick}"
         ></mwc-button>
         <mwc-button
           outlined
           label="stop"
           icon="stop"
           ?disabled="${!this.isTicking}"
-          @click="${this.onStopCLick}"
+          @click="${this.onStopClick}"
         ></mwc-button>
         <mwc-button outlined label="Reset" icon="clear" @click="${this.onResetClick}"></mwc-button>
       </div>
     `;
   }
 
-  private dispatchCommand(value) {
-    this.metronomeStateCommandBus$.next(value);
+  private dispatchCommand(command: Command) {
+    this.metronomeStateCommandBus$.next(command);
   }
 
   private subscribeProps() {

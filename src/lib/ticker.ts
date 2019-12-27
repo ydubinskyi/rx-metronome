@@ -3,7 +3,7 @@ import {css, customElement, html, LitElement, property} from 'lit-element';
 @customElement('rx-ticker')
 class RxTickerElement extends LitElement {
   @property({type: Number})
-  public beatsPerBar: number = 4;
+  public beatsPerBar: number;
 
   @property({type: Number})
   public counter: number;
