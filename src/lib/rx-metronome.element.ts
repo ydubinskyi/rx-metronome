@@ -8,7 +8,7 @@ import {IMetronomeState} from './metronome-state.interface';
 
 import '@material/mwc-button';
 import '@material/mwc-textfield';
-import './ticker';
+import './rx-ticker.element';
 
 type HTMLElementEvent<T extends HTMLElement> = Event & {
   target: T;
@@ -99,15 +99,21 @@ class RxMetronomeElement extends LitElement {
         width: 100%;
       }
 
+      .config-inputs,
+      .buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+      }
+
       .config-inputs {
         padding: 16px 0;
       }
 
-      .buttons {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-        width: 100%;
+      .buttons mwc-button,
+      .config-inputs mwc-textfield {
+        margin: 0 4px;
       }
 
       mwc-button {
@@ -117,6 +123,8 @@ class RxMetronomeElement extends LitElement {
 
       mwc-textfield {
         --mdc-theme-primary: var(--primary-color);
+
+        flex: 1;
       }
     `;
   }
@@ -144,20 +152,15 @@ class RxMetronomeElement extends LitElement {
         ></mwc-textfield>
       </div>
       <div class="buttons">
-        <mwc-button
-          outlined
-          label="start"
-          icon="play_arrow"
-          ?disabled="${this.isTicking}"
-          @click="${this.onStartClick}"
-        ></mwc-button>
-        <mwc-button
-          outlined
-          label="stop"
-          icon="stop"
-          ?disabled="${!this.isTicking}"
-          @click="${this.onStopClick}"
-        ></mwc-button>
+      ${
+        this.isTicking
+          ? html`
+              <mwc-button outlined label="stop" icon="stop" @click="${this.onStopClick}"></mwc-button>
+            `
+          : html`
+              <mwc-button outlined label="start" icon="play_arrow" @click="${this.onStartClick}"></mwc-button>
+            `
+      }
         <mwc-button outlined label="Reset" icon="clear" @click="${this.onResetClick}"></mwc-button>
       </div>
     `;

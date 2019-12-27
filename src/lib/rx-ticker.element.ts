@@ -24,12 +24,17 @@ class RxTickerElement extends LitElement {
         flex: 1;
         margin-right: 8px;
         padding: 8px;
-        border-radius: 4px;
-        border: 2px solid var(--primary-color);
+        border-radius: 0;
+        border: 1px solid var(--primary-color);
         text-align: center;
       }
 
+      div:first-of-type {
+        border-radius: 4px 0 0 4px;
+      }
+
       div:last-of-type {
+        border-radius: 0 4px 4px 0;
         margin-right: 0;
       }
 
