@@ -52,7 +52,7 @@ class RxMetronomeElement extends LitElement {
   );
 
   private unsubscribe$ = new Subject();
-  private bipAudio: HTMLAudioElement;
+  private bipAudioElement: HTMLAudioElement;
 
   public connectedCallback() {
     super.connectedCallback();
@@ -184,20 +184,18 @@ class RxMetronomeElement extends LitElement {
     this.isTicking$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => (this.isTicking = value));
     this.beatsPerMinute$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => (this.beatsPerMinute = value));
     this.beatsPerBar$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => (this.beatsPerBar = value));
-    this.counter$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => {
-      this.counter = value;
-      this.bipAudio.play();
-    });
+    this.counter$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => (this.counter = value));
 
-    this.counterUpdateTrigger$.pipe(takeUntil(this.unsubscribe$)).subscribe(() =>
+    this.counterUpdateTrigger$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => {
+      this.bipAudioElement.play();
       this.metronomeStateCommandBus$.next({
         counter: this.counter < this.beatsPerBar ? this.counter + 1 : 1,
-      }),
-    );
+      });
+    });
   }
 
   private initSounds() {
-    this.bipAudio = new Audio('sounds/bip.mp3');
-    this.bipAudio.load();
+    this.bipAudioElement = new Audio('sounds/bip.mp3');
+    this.bipAudioElement.load();
   }
 }
