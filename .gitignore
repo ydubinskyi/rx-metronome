@@ -1,6 +1,8 @@
 node_modules
 dist
 
+.firebase
+
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
