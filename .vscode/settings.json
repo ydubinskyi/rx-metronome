@@ -1,6 +1,7 @@
 {
   "editor.formatOnSave": true,
   "typescript.tsdk": "node_modules/typescript/lib",
+  "tslint.configFile": "./tslint.json",
   "files.eol": "\n",
   "editor.tabSize": 2
 }
