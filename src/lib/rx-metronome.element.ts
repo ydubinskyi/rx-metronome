@@ -39,7 +39,7 @@ class RxMetronomeElement extends LitElement {
   };
   public metronomeStateCommandBus$: BehaviorSubject<Command> = new BehaviorSubject(this.initMetronomeState);
   public metronomeState$: Observable<IMetronomeState> = this.metronomeStateCommandBus$.pipe(
-    scan((metronomeState: IMetronomeState, command) => ({...metronomeState, ...command})),
+    scan((metronomeState: IMetronomeState, command: Command) => ({...metronomeState, ...command})),
     shareReplay(1),
   );
 
