@@ -10,7 +10,7 @@ import '@material/mwc-button';
 import '@material/mwc-textfield';
 import './rx-ticker.element';
 
-import './sounds/bip.mp3';
+import '../assets/sounds/bip.mp3';
 
 type HTMLElementEvent<T extends HTMLElement> = Event & {
   target: T;
