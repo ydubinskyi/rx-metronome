@@ -8,6 +8,7 @@ import {IMetronomeState} from './metronome-state.interface';
 
 import '@material/mwc-button';
 import '@material/mwc-textfield';
+import './rx-tempo-text.element';
 import './rx-ticker.element';
 
 import '../assets/sounds/bip.mp3';
@@ -149,6 +150,7 @@ class RxMetronomeElement extends LitElement {
 
   protected render() {
     return html`
+      <rx-tempo-text .beatsPerMinute="${this.beatsPerMinute}"></rx-tempo-text>
       <rx-ticker .beatsPerBar="${this.beatsPerBar}" .counter="${this.counter}"></rx-ticker>
       <div class="config-inputs">
         <mwc-textfield

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "start": "webpack-dev-server --open --config webpack.dev.js --port 4200",
     "build": "webpack --config webpack.prod.js",
     "deploy": "npm run build && firebase deploy"
   },
