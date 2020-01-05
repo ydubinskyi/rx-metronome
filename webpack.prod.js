@@ -11,7 +11,12 @@ module.exports = merge(common, {
   plugins: [
     new CleanWebpackPlugin(),
     new CompressionPlugin(),
-    new WorkboxPlugin.GenerateSW(),
+    new WorkboxPlugin.GenerateSW({
+      clientsClaim: true,
+      skipWaiting: true,
+      navigateFallback: '/index.html',
+      navigateFallbackWhitelist: [/^(?!\/__)/],
+    }),
     new WebpackPwaManifest({
       name: 'rx-metronome',
       short_name: 'Metronome',
