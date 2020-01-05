@@ -31,23 +31,23 @@ class RxMetronomeElement extends LitElement {
   public counter: number;
 
   // State
-  public initMetronomeState: IMetronomeState = {
+  private initMetronomeState: IMetronomeState = {
     beatsPerBar: 4,
     beatsPerMinute: 72,
     counter: 1,
     isTicking: false,
   };
-  public metronomeStateCommandBus$: BehaviorSubject<Command> = new BehaviorSubject(this.initMetronomeState);
-  public metronomeState$: Observable<IMetronomeState> = this.metronomeStateCommandBus$.pipe(
+  private metronomeStateCommandBus$: BehaviorSubject<Command> = new BehaviorSubject(this.initMetronomeState);
+  private metronomeState$: Observable<IMetronomeState> = this.metronomeStateCommandBus$.pipe(
     scan((metronomeState: IMetronomeState, command) => ({...metronomeState, ...command})),
     shareReplay(1),
   );
 
-  public isTicking$ = this.metronomeState$.pipe(pluck('isTicking'), distinctUntilChanged<boolean>());
-  public beatsPerMinute$ = this.metronomeState$.pipe(pluck('beatsPerMinute'), distinctUntilChanged<number>());
-  public beatsPerBar$ = this.metronomeState$.pipe(pluck('beatsPerBar'), distinctUntilChanged<number>());
-  public counter$ = this.metronomeState$.pipe(pluck('counter'), distinctUntilChanged<number>());
-  public counterUpdateTrigger$ = combineLatest([this.isTicking$, this.beatsPerMinute$]).pipe(
+  private isTicking$ = this.metronomeState$.pipe(pluck('isTicking'), distinctUntilChanged<boolean>());
+  private beatsPerMinute$ = this.metronomeState$.pipe(pluck('beatsPerMinute'), distinctUntilChanged<number>());
+  private beatsPerBar$ = this.metronomeState$.pipe(pluck('beatsPerBar'), distinctUntilChanged<number>());
+  private counter$ = this.metronomeState$.pipe(pluck('counter'), distinctUntilChanged<number>());
+  private counterUpdateTrigger$ = combineLatest([this.isTicking$, this.beatsPerMinute$]).pipe(
     switchMap(([isTicking, beatsPerMinute]) => (isTicking ? timer(0, 1000 * (60 / beatsPerMinute)) : NEVER)),
   );
 
@@ -85,7 +85,17 @@ class RxMetronomeElement extends LitElement {
 
   @eventOptions({passive: true})
   public onBeatsPerMinuteChange({target: {value}}: HTMLElementEvent<TextField>) {
-    this.dispatchCommand({beatsPerMinute: Number(value)});
+    let beatsPerMinute = Number(value);
+
+    if (beatsPerMinute === undefined) {
+      beatsPerMinute = this.initMetronomeState.beatsPerMinute;
+    } else if (beatsPerMinute < 10) {
+      beatsPerMinute = 10;
+    } else if (beatsPerMinute > 220) {
+      beatsPerMinute = 220;
+    }
+
+    this.dispatchCommand({beatsPerMinute});
   }
 
   @eventOptions({passive: true})
@@ -137,14 +147,12 @@ class RxMetronomeElement extends LitElement {
     `;
   }
 
-  public render() {
+  protected render() {
     return html`
       <rx-ticker .beatsPerBar="${this.beatsPerBar}" .counter="${this.counter}"></rx-ticker>
       <div class="config-inputs">
         <mwc-textfield
           type="number"
-          min="10"
-          max="240"
           outlined
           label="Beats per minute"
           .value="${this.beatsPerMinute.toString()}"

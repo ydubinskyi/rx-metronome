@@ -11,6 +11,12 @@ class MyAppElement extends LitElement {
   public darkTheme = true;
 
   public toggleDarkMode(): void {
+    if (this.darkTheme) {
+      this.changeThemeColor('#302ae6');
+    } else {
+      this.changeThemeColor('#9a97f3');
+    }
+
     this.darkTheme = !this.darkTheme;
   }
 
@@ -61,7 +67,7 @@ class MyAppElement extends LitElement {
     `;
   }
 
-  public render() {
+  protected render() {
     return html`
       <mwc-top-app-bar dense>
         <div slot="title">rx-metronome</div>
@@ -76,5 +82,10 @@ class MyAppElement extends LitElement {
         <rx-metronome></rx-metronome>
       </div>
     `;
+  }
+
+  private changeThemeColor(color: string) {
+    const metaThemeColor = document.querySelector('meta[name=theme-color]');
+    metaThemeColor.setAttribute('content', color);
   }
 }

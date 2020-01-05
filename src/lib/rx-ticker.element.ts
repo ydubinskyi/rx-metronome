@@ -44,7 +44,7 @@ class RxTickerElement extends LitElement {
     `;
   }
 
-  public render() {
+  protected render() {
     return html`
       ${this.items.map(
         (i) => html`
