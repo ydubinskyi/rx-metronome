@@ -145,32 +145,29 @@ class RxMetronomeElement extends LitElement {
           type="number"
           min="10"
           max="240"
-          outlined 
+          outlined
           label="Beats per minute"
           .value="${this.beatsPerMinute.toString()}"
           @change="${this.onBeatsPerMinuteChange}"
         ></mwc-textfield>
-        </mwc-slider>
         <mwc-textfield
           type="number"
           min="2"
           max="6"
-          outlined 
+          outlined
           label="Beats per bar"
           .value="${this.beatsPerBar.toString()}"
           @change="${this.onBeatsPerBarChange}"
         ></mwc-textfield>
       </div>
       <div class="buttons">
-      ${
-        this.isTicking
+        ${this.isTicking
           ? html`
               <mwc-button outlined label="stop" icon="stop" @click="${this.onStopClick}"></mwc-button>
             `
           : html`
               <mwc-button outlined label="start" icon="play_arrow" @click="${this.onStartClick}"></mwc-button>
-            `
-      }
+            `}
         <mwc-button outlined label="Reset" icon="clear" @click="${this.onResetClick}"></mwc-button>
       </div>
     `;
