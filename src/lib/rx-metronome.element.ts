@@ -11,8 +11,6 @@ import '@material/mwc-textfield';
 import './rx-tempo-text.element';
 import './rx-ticker.element';
 
-import '../assets/sounds/bip.mp3';
-
 type HTMLElementEvent<T extends HTMLElement> = Event & {
   target: T;
 };
@@ -53,18 +51,18 @@ class RxMetronomeElement extends LitElement {
   );
 
   private unsubscribe$ = new Subject();
-  private bipAudioElement: HTMLAudioElement;
+  private audioContext = new AudioContext();
 
   public connectedCallback() {
     super.connectedCallback();
 
-    this.initSounds();
     this.subscribeProps();
   }
 
   public disconnectedCallback() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+    this.audioContext.close();
 
     super.disconnectedCallback();
   }
@@ -194,15 +192,21 @@ class RxMetronomeElement extends LitElement {
     this.counter$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => (this.counter = value));
 
     this.counterUpdateTrigger$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => {
-      this.bipAudioElement.play();
+      this.playBip();
       this.metronomeStateCommandBus$.next({
         counter: this.counter < this.beatsPerBar ? this.counter + 1 : 1,
       });
     });
   }
 
-  private initSounds() {
-    this.bipAudioElement = new Audio('sounds/bip.mp3');
-    this.bipAudioElement.load();
+  private playBip() {
+    const oscillator = this.audioContext.createOscillator();
+
+    oscillator.connect(this.audioContext.destination);
+
+    oscillator.type = 'triangle';
+    oscillator.frequency.setValueAtTime(340, this.audioContext.currentTime);
+    oscillator.start();
+    oscillator.stop(this.audioContext.currentTime + 0.15);
   }
 }
