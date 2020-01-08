@@ -1,7 +1,6 @@
 const path = require('path');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
@@ -9,7 +8,6 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 module.exports = merge(common, {
   mode: 'production',
   plugins: [
-    new CleanWebpackPlugin(),
     new CompressionPlugin(),
     new WorkboxPlugin.GenerateSW({
       clientsClaim: true,
