@@ -192,21 +192,25 @@ class RxMetronomeElement extends LitElement {
     this.counter$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => (this.counter = value));
 
     this.counterUpdateTrigger$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => {
-      this.playBip();
+      if (this.counter === this.beatsPerBar) {
+        this.playSound(220);
+      } else {
+        this.playSound(440);
+      }
       this.metronomeStateCommandBus$.next({
         counter: this.counter < this.beatsPerBar ? this.counter + 1 : 1,
       });
     });
   }
 
-  private playBip() {
+  private playSound(frequency: number) {
     const oscillator = this.audioContext.createOscillator();
 
     oscillator.connect(this.audioContext.destination);
 
-    oscillator.type = 'triangle';
-    oscillator.frequency.setValueAtTime(340, this.audioContext.currentTime);
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
     oscillator.start();
-    oscillator.stop(this.audioContext.currentTime + 0.15);
+    oscillator.stop(this.audioContext.currentTime + 0.05);
   }
 }
