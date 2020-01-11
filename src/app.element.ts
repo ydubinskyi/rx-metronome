@@ -3,6 +3,7 @@ import {css, customElement, html, LitElement, property} from 'lit-element';
 import '@material/mwc-icon-button';
 import '@material/mwc-top-app-bar';
 
+import {version} from '../package.json';
 import './lib/rx-metronome.element';
 
 @customElement('my-app')
@@ -64,6 +65,10 @@ class MyAppElement extends LitElement {
         margin: 16px auto;
         padding: 16px 12px;
       }
+
+      .version {
+        text-align: center;
+      }
     `;
   }
 
@@ -80,6 +85,9 @@ class MyAppElement extends LitElement {
       </mwc-top-app-bar>
       <div class="card">
         <rx-metronome></rx-metronome>
+      </div>
+      <div class="version">
+        ver. ${version}
       </div>
     `;
   }
