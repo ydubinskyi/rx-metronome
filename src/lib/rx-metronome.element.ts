@@ -1,9 +1,10 @@
 import {TextField} from '@material/mwc-textfield';
 import {css, customElement, eventOptions, html, LitElement, property} from 'lit-element';
-import {BehaviorSubject, combineLatest, NEVER, Observable, Subject, timer} from 'rxjs';
-import {distinctUntilChanged, pluck, scan, shareReplay, switchMap, takeUntil} from 'rxjs/operators';
+import {BehaviorSubject, Subject} from 'rxjs';
+import {distinctUntilChanged, pluck, takeUntil} from 'rxjs/operators';
 
 import {Command} from './command.type';
+import {initState} from './constants';
 import {IMetronomeState} from './metronome-state.interface';
 
 import '@material/mwc-button';
@@ -29,33 +30,21 @@ class RxMetronomeElement extends LitElement {
   @property({type: Number})
   public counter: number;
 
-  // State
-  private initMetronomeState: IMetronomeState = {
-    beatsPerBar: 4,
-    beatsPerMinute: 72,
-    counter: 1,
-    isTicking: false,
-  };
-  private metronomeStateCommandBus$: BehaviorSubject<Command> = new BehaviorSubject(this.initMetronomeState);
-  private metronomeState$: Observable<IMetronomeState> = this.metronomeStateCommandBus$.pipe(
-    scan((metronomeState: IMetronomeState, command) => ({...metronomeState, ...command})),
-    shareReplay(1),
-  );
+  private metronomeState$: BehaviorSubject<IMetronomeState> = new BehaviorSubject(initState);
+  private stateWorker: Worker;
 
   private isTicking$ = this.metronomeState$.pipe(pluck('isTicking'), distinctUntilChanged<boolean>());
   private beatsPerMinute$ = this.metronomeState$.pipe(pluck('beatsPerMinute'), distinctUntilChanged<number>());
   private beatsPerBar$ = this.metronomeState$.pipe(pluck('beatsPerBar'), distinctUntilChanged<number>());
   private counter$ = this.metronomeState$.pipe(pluck('counter'), distinctUntilChanged<number>());
-  private counterUpdateTrigger$ = combineLatest([this.isTicking$, this.beatsPerMinute$]).pipe(
-    switchMap(([isTicking, beatsPerMinute]) => (isTicking ? timer(0, 1000 * (60 / beatsPerMinute)) : NEVER)),
-  );
 
-  private unsubscribe$ = new Subject();
   private audioContext = new AudioContext();
+  private unsubscribe$ = new Subject();
 
   public connectedCallback() {
     super.connectedCallback();
 
+    this.connectToStateWorker();
     this.subscribeProps();
   }
 
@@ -79,7 +68,7 @@ class RxMetronomeElement extends LitElement {
 
   @eventOptions({passive: true})
   public onResetClick() {
-    this.dispatchCommand(this.initMetronomeState);
+    this.dispatchCommand(initState);
   }
 
   @eventOptions({passive: true})
@@ -87,7 +76,7 @@ class RxMetronomeElement extends LitElement {
     let beatsPerMinute = Number(value);
 
     if (beatsPerMinute === undefined) {
-      beatsPerMinute = this.initMetronomeState.beatsPerMinute;
+      beatsPerMinute = initState.beatsPerMinute;
     } else if (beatsPerMinute < 10) {
       beatsPerMinute = 10;
     } else if (beatsPerMinute > 220) {
@@ -182,24 +171,28 @@ class RxMetronomeElement extends LitElement {
   }
 
   private dispatchCommand(command: Command) {
-    this.metronomeStateCommandBus$.next(command);
+    this.stateWorker.postMessage(command);
+  }
+
+  private connectToStateWorker() {
+    this.stateWorker = new Worker('./rx-state.worker.ts', {type: 'module'});
+    this.stateWorker.onmessage = (event) => {
+      this.metronomeState$.next(event.data);
+    };
   }
 
   private subscribeProps() {
     this.isTicking$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => (this.isTicking = value));
     this.beatsPerMinute$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => (this.beatsPerMinute = value));
     this.beatsPerBar$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => (this.beatsPerBar = value));
-    this.counter$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => (this.counter = value));
+    this.counter$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => {
+      this.counter = value;
 
-    this.counterUpdateTrigger$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => {
-      if (this.counter === this.beatsPerBar) {
+      if (value === 4) {
         this.playSound(220);
       } else {
         this.playSound(440);
       }
-      this.metronomeStateCommandBus$.next({
-        counter: this.counter < this.beatsPerBar ? this.counter + 1 : 1,
-      });
     });
   }
 
