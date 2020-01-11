@@ -190,7 +190,7 @@ class RxMetronomeElement extends LitElement {
       this.counter = value;
 
       if (value !== 0) {
-        this.playSound(value === 4 ? 220 : 440);
+        this.playSound(value === 1 ? 220 : 440);
       }
     });
   }
