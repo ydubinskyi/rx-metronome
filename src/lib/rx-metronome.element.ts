@@ -52,6 +52,7 @@ class RxMetronomeElement extends LitElement {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     this.audioContext.close();
+    this.stateWorker.terminate();
 
     super.disconnectedCallback();
   }
