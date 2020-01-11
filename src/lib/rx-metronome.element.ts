@@ -188,10 +188,8 @@ class RxMetronomeElement extends LitElement {
     this.counter$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => {
       this.counter = value;
 
-      if (value === 4) {
-        this.playSound(220);
-      } else {
-        this.playSound(440);
+      if (value !== 0) {
+        this.playSound(value === 4 ? 220 : 440);
       }
     });
   }
