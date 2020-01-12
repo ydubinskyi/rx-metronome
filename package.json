@@ -1,6 +1,6 @@
 {
   "name": "rx-metronome",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,7 @@
     "@material/mwc-icon-button": "^0.11.1",
     "@material/mwc-textfield": "^0.11.1",
     "@material/mwc-top-app-bar": "^0.11.1",
+    "copy-webpack-plugin": "^5.1.1",
     "lit-element": "^2.2.1",
     "normalize.css": "^8.0.1",
     "rxjs": "^6.5.3"
@@ -46,7 +47,6 @@
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0",
     "webpack-merge": "^4.2.2",
-    "webpack-pwa-manifest": "^4.1.1",
     "workbox-webpack-plugin": "^4.3.1",
     "worker-plugin": "^3.2.0"
   }

@@ -2,6 +2,7 @@ const path = require('path');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WorkerPlugin = require('worker-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/index.ts',
@@ -29,6 +30,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'src/index.html',
     }),
+    new CopyPlugin([
+      {from: './src/favicon.ico', to: './'},
+      {from: './src/manifest.json', to: './'},
+      {from: './src/assets/**/*', to: 'icons/[name].[ext]'},
+    ]),
   ],
   output: {
     filename: '[name].bundle.js',
