@@ -12,13 +12,16 @@ class MyAppElement extends LitElement {
   public darkTheme = true;
 
   public toggleDarkMode(): void {
-    if (this.darkTheme) {
-      this.changeThemeColor('#302ae6');
-    } else {
-      this.changeThemeColor('#9a97f3');
-    }
-
     this.darkTheme = !this.darkTheme;
+
+    this.changeThemeColor(this.darkTheme ? '#9a97f3' : '#302ae6');
+    localStorage.setItem('theme', this.darkTheme ? 'dark' : 'bright');
+  }
+
+  public firstUpdated() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+
+    this.darkTheme = savedTheme === 'dark';
   }
 
   static get styles() {
@@ -77,10 +80,10 @@ class MyAppElement extends LitElement {
       <mwc-top-app-bar dense>
         <div slot="title">rx-metronome</div>
         <mwc-icon-button
-          icon="brightness_2"
+          icon="${this.darkTheme ? 'brightness_7' : 'brightness_4'}"
           slot="actionItems"
           @click="${this.toggleDarkMode}"
-          title="${this.darkTheme ? 'Switch to bright mode' : 'Switch to bright mode'}"
+          title="${this.darkTheme ? 'Switch to bright mode' : 'Switch to dark mode'}"
         ></mwc-icon-button>
       </mwc-top-app-bar>
       <div class="card">
