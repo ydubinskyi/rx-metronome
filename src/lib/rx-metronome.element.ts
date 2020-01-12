@@ -190,19 +190,27 @@ class RxMetronomeElement extends LitElement {
       this.counter = value;
 
       if (value !== 0) {
-        this.playSound(value === 1 ? 220 : 440);
+        this.playSound(value === 1 ? 880 : 440, 0.07);
       }
     });
   }
 
-  private playSound(frequency: number) {
+  private playSound(frequency: number, length: number) {
+    const {currentTime, destination} = this.audioContext;
+    const gainNode = this.audioContext.createGain();
     const oscillator = this.audioContext.createOscillator();
 
-    oscillator.connect(this.audioContext.destination);
+    gainNode.connect(destination);
+    oscillator.connect(gainNode).connect(destination);
+
+    gainNode.gain.setValueAtTime(0, currentTime);
+    gainNode.gain.linearRampToValueAtTime(1, currentTime + length * 0.1);
+    gainNode.gain.setValueAtTime(1, currentTime + length * 0.3);
+    gainNode.gain.linearRampToValueAtTime(0, currentTime + length * 0.9);
 
     oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
+    oscillator.frequency.setValueAtTime(frequency, currentTime);
     oscillator.start();
-    oscillator.stop(this.audioContext.currentTime + 0.05);
+    oscillator.stop(currentTime + length);
   }
 }
