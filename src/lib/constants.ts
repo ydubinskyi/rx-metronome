@@ -1,9 +1,12 @@
 export const initState = {
   beatsPerBar: 4,
-  beatsPerMinute: 72,
+  beatsPerMinute: 164,
   counter: 0,
   isTicking: false,
 };
+
+export const MIN_TEMPO_VALUE = 10;
+export const MAX_TEMPO_VALUE = 220;
 
 export const tempoTerms = [
   {
@@ -42,7 +45,7 @@ export const tempoTerms = [
     name: 'Adagietto',
   },
   {
-    from: 76,
+    from: 77,
     to: 108,
     name: 'Andante',
   },
@@ -50,11 +53,6 @@ export const tempoTerms = [
     from: 80,
     to: 108,
     name: 'Andantino',
-  },
-  {
-    from: 83,
-    to: 88,
-    name: 'Marcia moderato',
   },
   {
     from: 92,

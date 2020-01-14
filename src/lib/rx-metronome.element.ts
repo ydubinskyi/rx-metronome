@@ -4,10 +4,11 @@ import {BehaviorSubject, Subject} from 'rxjs';
 import {distinctUntilChanged, pluck, takeUntil} from 'rxjs/operators';
 
 import {Command} from './command.type';
-import {initState} from './constants';
+import {initState, MAX_TEMPO_VALUE, MIN_TEMPO_VALUE} from './constants';
 import {IMetronomeState} from './metronome-state.interface';
 
 import '@material/mwc-button';
+import '@material/mwc-icon-button';
 import '@material/mwc-textfield';
 import './rx-tempo-text.element';
 import './rx-ticker.element';
@@ -73,15 +74,25 @@ class RxMetronomeElement extends LitElement {
   }
 
   @eventOptions({passive: true})
+  public onPlusOneClick() {
+    this.dispatchCommand({beatsPerMinute: this.beatsPerMinute + 1});
+  }
+
+  @eventOptions({passive: true})
+  public onMinusOneClick() {
+    this.dispatchCommand({beatsPerMinute: this.beatsPerMinute - 1});
+  }
+
+  @eventOptions({passive: true})
   public onBeatsPerMinuteChange({target: {value}}: HTMLElementEvent<TextField>) {
     let beatsPerMinute = Number(value);
 
     if (beatsPerMinute === undefined) {
       beatsPerMinute = initState.beatsPerMinute;
-    } else if (beatsPerMinute < 10) {
-      beatsPerMinute = 10;
-    } else if (beatsPerMinute > 220) {
-      beatsPerMinute = 220;
+    } else if (beatsPerMinute < MIN_TEMPO_VALUE) {
+      beatsPerMinute = MIN_TEMPO_VALUE;
+    } else if (beatsPerMinute > MAX_TEMPO_VALUE) {
+      beatsPerMinute = MAX_TEMPO_VALUE;
     }
 
     this.dispatchCommand({beatsPerMinute});
@@ -114,6 +125,15 @@ class RxMetronomeElement extends LitElement {
         padding: 16px 0;
       }
 
+      .text-and-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 100%;
+        min-height: 100px;
+        margin-top: 8px;
+      }
+
       .buttons mwc-button,
       .config-inputs mwc-textfield {
         margin: 0 4px;
@@ -122,6 +142,12 @@ class RxMetronomeElement extends LitElement {
       mwc-button {
         --mdc-theme-primary: var(--primary-color);
         --mdc-theme-on-primary: var(--text-color);
+      }
+
+      mwc-icon-button {
+        color: var(--primary-color);
+        --mdc-icon-size: 48px;
+        --mdc-icon-button-size: 64px;
       }
 
       mwc-textfield {
@@ -138,13 +164,27 @@ class RxMetronomeElement extends LitElement {
 
   protected render() {
     return html`
-      <rx-tempo-text .beatsPerMinute="${this.beatsPerMinute}"></rx-tempo-text>
       <rx-ticker .beatsPerBar="${this.beatsPerBar}" .counter="${this.counter}"></rx-ticker>
+      <div class="text-and-buttons">
+        <mwc-icon-button
+          icon="exposure_minus_1"
+          ?disabled="${this.beatsPerMinute === MIN_TEMPO_VALUE + 1}"
+          @click="${this.onMinusOneClick}"
+        ></mwc-icon-button>
+        <rx-tempo-text .beatsPerMinute="${this.beatsPerMinute}"></rx-tempo-text>
+        <mwc-icon-button
+          icon="exposure_plus_1"
+          ?disabled="${this.beatsPerMinute === MAX_TEMPO_VALUE - 1}"
+          @click="${this.onPlusOneClick}"
+        ></mwc-icon-button>
+      </div>
       <div class="config-inputs">
         <mwc-textfield
           type="number"
           outlined
           label="Beats per minute"
+          min="${MIN_TEMPO_VALUE}"
+          max="${MAX_TEMPO_VALUE}"
           .value="${this.beatsPerMinute.toString()}"
           @change="${this.onBeatsPerMinuteChange}"
         ></mwc-textfield>

@@ -22,8 +22,8 @@ class RxTempoTextElement extends LitElement {
         display: flex;
         flex-direction: column;
         align-items: center;
+        text-align: center;
         width: 100%;
-        padding-bottom: 16px;
       }
 
       .number-value {
@@ -33,7 +33,7 @@ class RxTempoTextElement extends LitElement {
       }
 
       .text-value {
-        font-size: 24px;
+        font-size: 18px;
         line-height: 1;
         margin: 0;
       }

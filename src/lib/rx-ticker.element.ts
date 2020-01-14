@@ -23,10 +23,11 @@ class RxTickerElement extends LitElement {
       div {
         flex: 1;
         margin: 0 4px;
-        padding: 8px;
+        padding: 8px 16px;
         border-radius: 0;
-        border: 1px solid var(--primary-color);
+        border: 2px solid var(--primary-color);
         text-align: center;
+        font-size: 24px;
       }
 
       div:first-of-type {
