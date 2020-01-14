@@ -10,6 +10,7 @@ module.exports = merge(common, {
     new WorkboxPlugin.GenerateSW({
       clientsClaim: true,
       skipWaiting: true,
+      cleanupOutdatedCaches: true,
       navigateFallback: '/index.html',
       navigateFallbackWhitelist: [/^(?!\/__)/],
     }),
