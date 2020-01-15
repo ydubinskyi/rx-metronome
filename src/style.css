@@ -1,5 +1,3 @@
-@import '../node_modules/normalize.css/normalize.css';
-
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
@@ -26,4 +24,10 @@
 
 html {
   font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
 }
