@@ -75,12 +75,16 @@ class RxMetronomeElement extends LitElement {
 
   @eventOptions({passive: true})
   public onPlusOneClick() {
-    this.dispatchCommand({beatsPerMinute: this.beatsPerMinute + 1});
+    if (this.beatsPerMinute < MAX_TEMPO_VALUE) {
+      this.dispatchCommand({beatsPerMinute: this.beatsPerMinute + 1});
+    }
   }
 
   @eventOptions({passive: true})
   public onMinusOneClick() {
-    this.dispatchCommand({beatsPerMinute: this.beatsPerMinute - 1});
+    if (this.beatsPerMinute > MIN_TEMPO_VALUE) {
+      this.dispatchCommand({beatsPerMinute: this.beatsPerMinute - 1});
+    }
   }
 
   @eventOptions({passive: true})
