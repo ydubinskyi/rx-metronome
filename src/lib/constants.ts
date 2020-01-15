@@ -6,7 +6,7 @@ export const initState = {
 };
 
 export const MIN_TEMPO_VALUE = 10;
-export const MAX_TEMPO_VALUE = 220;
+export const MAX_TEMPO_VALUE = 300;
 
 export const tempoTerms = [
   {
