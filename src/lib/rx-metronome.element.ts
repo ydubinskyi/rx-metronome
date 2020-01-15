@@ -12,6 +12,7 @@ import '@material/mwc-icon-button';
 import '@material/mwc-textfield';
 import './rx-tempo-text.element';
 import './rx-ticker.element';
+import './rx-tempo-pendulum.element';
 
 type HTMLElementEvent<T extends HTMLElement> = Event & {
   target: T;
@@ -114,7 +115,7 @@ class RxMetronomeElement extends LitElement {
         flex-direction: column;
         align-content: center;
         align-items: center;
-        width: 100%;
+        flex: 1;
       }
 
       .config-inputs,
@@ -135,7 +136,11 @@ class RxMetronomeElement extends LitElement {
         justify-content: space-evenly;
         width: 100%;
         min-height: 100px;
-        margin-top: 8px;
+      }
+
+      rx-tempo-pendulum {
+        margin: 16px 0 0;
+        width: calc(100% - 16px);
       }
 
       .buttons mwc-button,
@@ -169,6 +174,10 @@ class RxMetronomeElement extends LitElement {
   protected render() {
     return html`
       <rx-ticker .beatsPerBar="${this.beatsPerBar}" .counter="${this.counter}"></rx-ticker>
+      <rx-tempo-pendulum
+        .tick="${this.counter && this.counter % 2 === 0}"
+        .beatsPerMinute="${this.beatsPerMinute}"
+      ></rx-tempo-pendulum>
       <div class="text-and-buttons">
         <mwc-icon-button
           icon="exposure_minus_1"
