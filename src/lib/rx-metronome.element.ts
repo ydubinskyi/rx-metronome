@@ -3,9 +3,9 @@ import {css, customElement, eventOptions, html, LitElement, property} from 'lit-
 import {BehaviorSubject, Subject} from 'rxjs';
 import {distinctUntilChanged, pluck, takeUntil} from 'rxjs/operators';
 
-import {Command} from './command.type';
 import {initState, MAX_TEMPO_VALUE, MIN_TEMPO_VALUE} from './constants';
-import {IMetronomeState} from './metronome-state.interface';
+import {Command} from './types/command.type';
+import {IMetronomeState} from './types/metronome-state.interface';
 
 import '@material/mwc-button';
 import '@material/mwc-icon-button';

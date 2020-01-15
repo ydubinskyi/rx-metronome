@@ -1,9 +1,9 @@
 import {BehaviorSubject, combineLatest, fromEvent, merge, NEVER, Observable, timer} from 'rxjs';
 import {distinctUntilChanged, map, pluck, scan, shareReplay, switchMap, withLatestFrom} from 'rxjs/operators';
 
-import {Command} from './command.type';
 import {initState} from './constants';
-import {IMetronomeState} from './metronome-state.interface';
+import {Command} from './types/command.type';
+import {IMetronomeState} from './types/metronome-state.interface';
 
 const ctx: Worker = self as any;
 
