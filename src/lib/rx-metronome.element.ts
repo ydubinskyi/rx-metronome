@@ -168,13 +168,13 @@ class RxMetronomeElement extends LitElement {
       <div class="text-and-buttons">
         <mwc-icon-button
           icon="exposure_minus_1"
-          ?disabled="${this.beatsPerMinute === MIN_TEMPO_VALUE + 1}"
+          ?disabled="${this.beatsPerMinute === MIN_TEMPO_VALUE}"
           @click="${this.onMinusOneClick}"
         ></mwc-icon-button>
         <rx-tempo-text .beatsPerMinute="${this.beatsPerMinute}"></rx-tempo-text>
         <mwc-icon-button
           icon="exposure_plus_1"
-          ?disabled="${this.beatsPerMinute === MAX_TEMPO_VALUE - 1}"
+          ?disabled="${this.beatsPerMinute === MAX_TEMPO_VALUE}"
           @click="${this.onPlusOneClick}"
         ></mwc-icon-button>
       </div>
