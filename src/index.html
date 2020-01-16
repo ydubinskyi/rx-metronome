@@ -9,6 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="theme-color" content="#9a97f3" />
 
+    <meta name="keywords" content="Metronome,Music,Tempo" />
+    <meta
+      name="description"
+      content="Practice you music skills with rx-metronome. Free metronome app that can be added to your home screen."
+    />
+
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="manifest" href="manifest.json" />
@@ -24,6 +30,27 @@
           navigator.serviceWorker.register('/service-worker.js').catch((err) => console.warn('no sw'));
         });
       }
+    </script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-analytics.js"></script>
+
+    <script>
+      var firebaseConfig = {
+        apiKey: 'AIzaSyCcyPk5CW7OeKhhryUezHz4FvSENAeGFt0',
+        authDomain: 'rx-metronome.firebaseapp.com',
+        databaseURL: 'https://rx-metronome.firebaseio.com',
+        projectId: 'rx-metronome',
+        storageBucket: 'rx-metronome.appspot.com',
+        messagingSenderId: '549756263833',
+        appId: '1:549756263833:web:d281685203136c2de78708',
+        measurementId: 'G-G04F4MVV70',
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
     </script>
   </body>
 </html>
