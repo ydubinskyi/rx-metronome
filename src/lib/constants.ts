@@ -7,6 +7,8 @@ export const initState = {
 
 export const MIN_TEMPO_VALUE = 10;
 export const MAX_TEMPO_VALUE = 300;
+export const TICK_FREQUENCY = 880;
+export const TACK_FREQUENCY = 440;
 
 export const tempoTerms = [
   {
