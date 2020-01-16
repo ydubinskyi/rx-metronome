@@ -1,13 +1,22 @@
-import {css, customElement, html, LitElement, property} from 'lit-element';
+import {css, customElement, html, LitElement, property, PropertyValues} from 'lit-element';
 import {styleMap} from 'lit-html/directives/style-map';
 
 @customElement('rx-tempo-pendulum')
 class RxTempoTextElement extends LitElement {
-  @property({type: Boolean})
-  public tick: boolean;
+  @property({type: Number})
+  public counter: number;
 
   @property({type: Number})
   public beatsPerMinute: number;
+
+  @property({attribute: false})
+  public tick: boolean = false;
+
+  public updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('counter')) {
+      this.tick = this.counter === 0 ? false : !this.tick;
+    }
+  }
 
   static get styles() {
     return css`

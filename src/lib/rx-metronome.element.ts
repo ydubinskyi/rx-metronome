@@ -199,10 +199,7 @@ class RxMetronomeElement extends LitElement {
   protected render() {
     return html`
       <rx-ticker .beatsPerBar="${this.beatsPerBar}" .counter="${this.counter}"></rx-ticker>
-      <rx-tempo-pendulum
-        .tick="${this.counter && this.counter % 2 === 0}"
-        .beatsPerMinute="${this.beatsPerMinute}"
-      ></rx-tempo-pendulum>
+      <rx-tempo-pendulum .counter="${this.counter}" .beatsPerMinute="${this.beatsPerMinute}"></rx-tempo-pendulum>
       <div class="text-and-buttons">
         <mwc-icon-button
           icon="exposure_minus_1"
