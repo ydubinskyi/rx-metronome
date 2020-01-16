@@ -72,6 +72,15 @@ class MyAppElement extends LitElement {
       .version {
         text-align: center;
       }
+
+      a {
+        color: var(--text-color);
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: var(--primary-color);
+      }
     `;
   }
 
@@ -90,6 +99,7 @@ class MyAppElement extends LitElement {
         <rx-metronome></rx-metronome>
       </div>
       <div class="version">
+        Made with ❤ by <a href="https://github.com/ydubinskyi" target="_blank">@ydubinskyi</a> <br />
         ver. ${version}
       </div>
     `;
