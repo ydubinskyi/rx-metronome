@@ -44,6 +44,7 @@ class RxMetronomeElement extends LitElement {
   private audioContext = new AudioContext();
   private unsubscribe$ = new Subject();
 
+  /** @override */
   public connectedCallback() {
     super.connectedCallback();
 
@@ -51,6 +52,7 @@ class RxMetronomeElement extends LitElement {
     this.subscribeProps();
   }
 
+  /** @override */
   public disconnectedCallback() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();

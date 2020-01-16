@@ -12,6 +12,7 @@ class RxTempoTextElement extends LitElement {
   @property({attribute: false})
   public tick: boolean = false;
 
+  /** @override */
   public updated(changedProperties: PropertyValues) {
     if (changedProperties.has('counter')) {
       this.tick = this.counter === 0 ? false : !this.tick;
