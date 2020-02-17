@@ -3,7 +3,7 @@ import {css, customElement, html, LitElement, property} from 'lit-element';
 import {tempoTerms} from './constants';
 
 @customElement('rx-tempo-text')
-class RxTempoTextElement extends LitElement {
+export class RxTempoTextElement extends LitElement {
   @property({type: Number})
   public beatsPerMinute: number;
 
