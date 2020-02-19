@@ -1,13 +1,13 @@
 import {expect, fixture, html} from '@open-wc/testing';
 
-import {RxTempoTextElement} from '../rx-tempo-text.element';
+import {RxTickerElement} from '../rx-ticker.element';
 
-describe('rx-tempo-text', () => {
-  let element: RxTempoTextElement;
+describe('rx-ticker', () => {
+  let element: RxTickerElement;
 
   it('works', async () => {
     element = await fixture(html`
-      <rx-tempo-text></rx-tempo-text>
+      <rx-ticker></rx-ticker>
     `);
 
     expect(element).to.be.ok;

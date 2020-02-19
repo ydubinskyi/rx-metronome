@@ -1,7 +1,7 @@
 import {css, customElement, html, LitElement, property} from 'lit-element';
 
 @customElement('rx-ticker')
-class RxTickerElement extends LitElement {
+export class RxTickerElement extends LitElement {
   @property({type: Number})
   public beatsPerBar: number;
 
