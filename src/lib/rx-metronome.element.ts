@@ -10,6 +10,8 @@ import {IMetronomeState} from './types/metronome-state.interface';
 import '@material/mwc-button';
 import '@material/mwc-icon-button';
 import '@material/mwc-textfield';
+import '@material/mwc-select';
+import '@material/mwc-list/mwc-list-item';
 import './rx-tempo-pendulum.element';
 import './rx-tempo-text.element';
 import './rx-ticker.element';
@@ -195,6 +197,19 @@ class RxMetronomeElement extends LitElement {
 
         flex: 1;
       }
+
+      mwc-select {
+        --mdc-theme-primary: var(--primary-color);
+        --mdc-select-ink-color: var(--text-color);
+        --mdc-select-dropdown-icon-color: var(--text-color);
+        --mdc-select-label-ink-color: var(--text-color);
+        --mdc-select-outlined-idle-border-color: var(--text-color);
+        --mdc-select-outlined-hover-border-color: var(--text-color);
+        --mdc-theme-surface: var(--app-bg-color);
+        --mdc-theme-text-primary-on-background: var(--text-color);
+
+        flex: 1;
+      }
     `;
   }
 
@@ -225,15 +240,18 @@ class RxMetronomeElement extends LitElement {
           .value="${this.beatsPerMinute.toString()}"
           @change="${this.onBeatsPerMinuteChange}"
         ></mwc-textfield>
-        <mwc-textfield
-          type="number"
-          min="2"
-          max="6"
+        <mwc-select
           outlined
           label="Beats per bar"
           .value="${this.beatsPerBar.toString()}"
           @change="${this.onBeatsPerBarChange}"
-        ></mwc-textfield>
+        >
+          <mwc-list-item value="2">2</mwc-list-item>
+          <mwc-list-item value="3">3</mwc-list-item>
+          <mwc-list-item value="4">4</mwc-list-item>
+          <mwc-list-item value="5">5</mwc-list-item>
+          <mwc-list-item value="6">6</mwc-list-item>
+        </mwc-select>
       </div>
       <div class="control-buttons">
         <mwc-button

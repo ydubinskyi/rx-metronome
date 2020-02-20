@@ -23,6 +23,7 @@
     "@material/mwc-button": "^0.13.0",
     "@material/mwc-icon": "^0.13.0",
     "@material/mwc-icon-button": "^0.13.0",
+    "@material/mwc-select": "^0.13.0",
     "@material/mwc-textfield": "^0.13.0",
     "@material/mwc-top-app-bar": "^0.13.0",
     "lit-element": "^2.2.1",
