@@ -4,7 +4,7 @@ const merge = require('deepmerge');
 module.exports = (config) => {
   config.set(
     merge(createDefaultConfig(config), {
-      files: [{pattern: config.grep ? config.grep : '**/*.test.ts', type: 'module'}],
+      files: [{pattern: config.grep ? config.grep : './src/**/*.test.ts', type: 'module'}],
 
       esm: {
         babel: true,
