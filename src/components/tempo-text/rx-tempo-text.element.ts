@@ -1,6 +1,6 @@
 import {css, customElement, html, LitElement, property} from 'lit-element';
 
-import {tempoTerms} from './constants';
+import {tempoTerms} from '../../constants';
 
 @customElement('rx-tempo-text')
 export class RxTempoTextElement extends LitElement {

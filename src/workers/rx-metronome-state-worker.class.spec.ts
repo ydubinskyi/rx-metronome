@@ -1,6 +1,6 @@
 import {expect} from '@open-wc/testing';
 
-import {RxMetronomeStateWorker} from '../rx-metronome-state-worker.class';
+import {RxMetronomeStateWorker} from './rx-metronome-state-worker.class';
 
 describe('RxMetronomeStateWorker', () => {
   let instance: RxMetronomeStateWorker;

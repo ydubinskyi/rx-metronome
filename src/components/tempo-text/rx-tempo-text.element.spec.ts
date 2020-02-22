@@ -1,6 +1,6 @@
 import {expect, fixture, html} from '@open-wc/testing';
 
-import {RxTempoTextElement} from '../rx-tempo-text.element';
+import {RxTempoTextElement} from './rx-tempo-text.element';
 
 describe('rx-tempo-text', () => {
   let element: RxTempoTextElement;

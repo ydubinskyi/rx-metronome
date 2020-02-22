@@ -1,20 +1,18 @@
 import {TextField} from '@material/mwc-textfield';
-import {css, customElement, eventOptions, html, LitElement, property} from 'lit-element';
+import {customElement, eventOptions, html, LitElement, property} from 'lit-element';
 import {Subject} from 'rxjs';
 import {bufferCount, filter, map, takeUntil, timeInterval} from 'rxjs/operators';
 
-import {initState, MAX_TEMPO_VALUE, MIN_TEMPO_VALUE, TACK_FREQUENCY, TICK_FREQUENCY} from './constants';
-import {RxPlaySoundMixin} from './rx-play-sound.mixin';
-import {RxStateMixin} from './rx-state.mixin';
-import {RxUnsubscribeMixin} from './rx-unsubscribe.mixin';
-import {HTMLElementEvent} from './types';
+import {initState, MAX_TEMPO_VALUE, MIN_TEMPO_VALUE, TACK_FREQUENCY, TICK_FREQUENCY} from '../../constants';
+import {RxPlaySoundMixin, RxStateMixin, RxUnsubscribeMixin} from '../../mixins';
+import {HTMLElementEvent} from '../../types';
 
 import '@material/mwc-button';
 import '@material/mwc-icon-button';
 import '@material/mwc-textfield';
-import './rx-tempo-pendulum.element';
-import './rx-tempo-text.element';
-import './rx-ticker.element';
+import '../tempo-pendulum/rx-tempo-pendulum.element';
+import '../tempo-text/rx-tempo-text.element';
+import '../ticker/rx-ticker.element';
 
 import {styles} from './rx-metronome.styles';
 

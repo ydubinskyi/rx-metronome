@@ -1,6 +1,6 @@
 import {LitElement} from 'lit-element';
 
-import {Constructor} from './types';
+import {Constructor} from '../types';
 
 export function RxPlaySoundMixin<TBase extends Constructor<LitElement>>(Base: TBase) {
   class Mixin extends Base {

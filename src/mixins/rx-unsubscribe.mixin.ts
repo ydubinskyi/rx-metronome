@@ -1,7 +1,7 @@
 import {LitElement} from 'lit-element';
 import {Subject} from 'rxjs';
 
-import {Constructor} from './types';
+import {Constructor} from '../types';
 
 export function RxUnsubscribeMixin<TBase extends Constructor<LitElement>>(Base: TBase) {
   class Mixin extends Base {
