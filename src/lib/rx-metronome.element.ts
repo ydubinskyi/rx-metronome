@@ -4,8 +4,7 @@ import {BehaviorSubject, Subject} from 'rxjs';
 import {bufferCount, distinctUntilChanged, filter, map, pluck, takeUntil, timeInterval} from 'rxjs/operators';
 
 import {initState, MAX_TEMPO_VALUE, MIN_TEMPO_VALUE, TACK_FREQUENCY, TICK_FREQUENCY} from './constants';
-import {Command} from './types/command.type';
-import {IMetronomeState} from './types/metronome-state.interface';
+import {Command, HTMLElementEvent, IMetronomeState} from './types';
 
 import '@material/mwc-button';
 import '@material/mwc-icon-button';
@@ -14,12 +13,8 @@ import './rx-tempo-pendulum.element';
 import './rx-tempo-text.element';
 import './rx-ticker.element';
 
-type HTMLElementEvent<T extends HTMLElement> = Event & {
-  target: T;
-};
-
 @customElement('rx-metronome')
-class RxMetronomeElement extends LitElement {
+export class RxMetronomeElement extends LitElement {
   @property({type: Boolean})
   public isTicking: boolean;
 

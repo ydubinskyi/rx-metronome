@@ -2,7 +2,7 @@ import {css, customElement, html, LitElement, property, PropertyValues} from 'li
 import {styleMap} from 'lit-html/directives/style-map';
 
 @customElement('rx-tempo-pendulum')
-class RxTempoTextElement extends LitElement {
+export class RxTempoTextElement extends LitElement {
   @property({type: Number})
   public counter: number;
 
