@@ -9,7 +9,7 @@ import './components/metronome/rx-metronome.element';
 import {styles} from './app.styles';
 
 @customElement('my-app')
-class MyAppElement extends LitElement {
+export class MyAppElement extends LitElement {
   @property({type: Boolean, reflect: true, attribute: 'dark-theme'})
   public darkTheme = true;
 
