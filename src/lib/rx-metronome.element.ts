@@ -1,10 +1,11 @@
 import {TextField} from '@material/mwc-textfield';
 import {css, customElement, eventOptions, html, LitElement, property} from 'lit-element';
-import {BehaviorSubject, Subject} from 'rxjs';
-import {bufferCount, distinctUntilChanged, filter, map, pluck, takeUntil, timeInterval} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {bufferCount, filter, map, takeUntil, timeInterval} from 'rxjs/operators';
 
 import {initState, MAX_TEMPO_VALUE, MIN_TEMPO_VALUE, TACK_FREQUENCY, TICK_FREQUENCY} from './constants';
-import {Command, HTMLElementEvent, IMetronomeState} from './types';
+import {RxStateMixin} from './rx-state.mixin';
+import {HTMLElementEvent} from './types';
 
 import '@material/mwc-button';
 import '@material/mwc-icon-button';
@@ -14,7 +15,7 @@ import './rx-tempo-text.element';
 import './rx-ticker.element';
 
 @customElement('rx-metronome')
-export class RxMetronomeElement extends LitElement {
+export class RxMetronomeElement extends RxStateMixin(LitElement) {
   @property({type: Boolean})
   public isTicking: boolean;
 
@@ -27,14 +28,7 @@ export class RxMetronomeElement extends LitElement {
   @property({type: Number})
   public counter: number;
 
-  private metronomeState$: BehaviorSubject<IMetronomeState> = new BehaviorSubject(initState);
   private tapTempoSubject$: Subject<void> = new Subject();
-  private stateWorker: Worker;
-
-  private isTicking$ = this.metronomeState$.pipe(pluck('isTicking'), distinctUntilChanged<boolean>());
-  private beatsPerMinute$ = this.metronomeState$.pipe(pluck('beatsPerMinute'), distinctUntilChanged<number>());
-  private beatsPerBar$ = this.metronomeState$.pipe(pluck('beatsPerBar'), distinctUntilChanged<number>());
-  private counter$ = this.metronomeState$.pipe(pluck('counter'), distinctUntilChanged<number>());
 
   private audioContext = new AudioContext();
   private unsubscribe$ = new Subject();
@@ -263,22 +257,11 @@ export class RxMetronomeElement extends LitElement {
     `;
   }
 
-  private dispatchCommand(command: Command) {
-    this.stateWorker.postMessage(command);
-  }
-
-  private connectToStateWorker() {
-    this.stateWorker = new Worker('./rx-state.worker.ts', {type: 'module'});
-    this.stateWorker.onmessage = (event) => {
-      this.metronomeState$.next(event.data);
-    };
-  }
-
   private subscribeProps() {
-    this.isTicking$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => (this.isTicking = value));
-    this.beatsPerMinute$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => (this.beatsPerMinute = value));
-    this.beatsPerBar$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => (this.beatsPerBar = value));
-    this.counter$.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => {
+    this.isTicking$.pipe(takeUntil(this.unsubscribe$)).subscribe((value: boolean) => (this.isTicking = value));
+    this.beatsPerMinute$.pipe(takeUntil(this.unsubscribe$)).subscribe((value: number) => (this.beatsPerMinute = value));
+    this.beatsPerBar$.pipe(takeUntil(this.unsubscribe$)).subscribe((value: number) => (this.beatsPerBar = value));
+    this.counter$.pipe(takeUntil(this.unsubscribe$)).subscribe((value: number) => {
       this.counter = value;
 
       if (value !== 0) {
