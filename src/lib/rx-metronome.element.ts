@@ -4,6 +4,7 @@ import {Subject} from 'rxjs';
 import {bufferCount, filter, map, takeUntil, timeInterval} from 'rxjs/operators';
 
 import {initState, MAX_TEMPO_VALUE, MIN_TEMPO_VALUE, TACK_FREQUENCY, TICK_FREQUENCY} from './constants';
+import {RxPlaySoundMixin} from './rx-play-sound.mixin';
 import {RxStateMixin} from './rx-state.mixin';
 import {HTMLElementEvent} from './types';
 
@@ -15,7 +16,7 @@ import './rx-tempo-text.element';
 import './rx-ticker.element';
 
 @customElement('rx-metronome')
-export class RxMetronomeElement extends RxStateMixin(LitElement) {
+export class RxMetronomeElement extends RxPlaySoundMixin(RxStateMixin(LitElement)) {
   @property({type: Boolean})
   public isTicking: boolean;
 
@@ -30,7 +31,6 @@ export class RxMetronomeElement extends RxStateMixin(LitElement) {
 
   private tapTempoSubject$: Subject<void> = new Subject();
 
-  private audioContext = new AudioContext();
   private unsubscribe$ = new Subject();
 
   /** @override */
@@ -45,7 +45,6 @@ export class RxMetronomeElement extends RxStateMixin(LitElement) {
   public disconnectedCallback() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-    this.audioContext.close();
     this.stateWorker.terminate();
     this.metronomeState$.complete();
     this.tapTempoSubject$.complete();
@@ -283,24 +282,5 @@ export class RxMetronomeElement extends RxStateMixin(LitElement) {
         }),
       )
       .subscribe((beatsPerMinute) => this.dispatchCommand({beatsPerMinute}));
-  }
-
-  private playSound(frequency: number, length: number) {
-    const {currentTime, destination} = this.audioContext;
-    const gainNode = this.audioContext.createGain();
-    const oscillator = this.audioContext.createOscillator();
-
-    gainNode.connect(destination);
-    oscillator.connect(gainNode).connect(destination);
-
-    gainNode.gain.setValueAtTime(0, currentTime);
-    gainNode.gain.linearRampToValueAtTime(1, currentTime + length * 0.1);
-    gainNode.gain.setValueAtTime(1, currentTime + length * 0.3);
-    gainNode.gain.linearRampToValueAtTime(0, currentTime + length * 0.9);
-
-    oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(frequency, currentTime);
-    oscillator.start();
-    oscillator.stop(currentTime + length);
   }
 }
