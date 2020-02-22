@@ -15,11 +15,18 @@ export function RxStateMixin<TBase extends Constructor<LitElement>>(Base: TBase)
     public beatsPerBar$ = this.metronomeState$.pipe(pluck('beatsPerBar'), distinctUntilChanged<number>());
     public counter$ = this.metronomeState$.pipe(pluck('counter'), distinctUntilChanged<number>());
 
+    /** @override */
+    public connectedCallback() {
+      super.connectedCallback();
+
+      this.connectToStateWorker();
+    }
+
     public dispatchCommand(command: Command) {
       this.stateWorker.postMessage(command);
     }
 
-    public connectToStateWorker() {
+    private connectToStateWorker() {
       this.stateWorker = new Worker('./rx-state.worker.ts', {type: 'module'});
       this.stateWorker.onmessage = (event) => {
         this.metronomeState$.next(event.data);

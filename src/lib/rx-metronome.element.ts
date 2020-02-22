@@ -6,6 +6,7 @@ import {bufferCount, filter, map, takeUntil, timeInterval} from 'rxjs/operators'
 import {initState, MAX_TEMPO_VALUE, MIN_TEMPO_VALUE, TACK_FREQUENCY, TICK_FREQUENCY} from './constants';
 import {RxPlaySoundMixin} from './rx-play-sound.mixin';
 import {RxStateMixin} from './rx-state.mixin';
+import {RxUnsubscribeMixin} from './rx-unsubscribe.mixin';
 import {HTMLElementEvent} from './types';
 
 import '@material/mwc-button';
@@ -16,7 +17,7 @@ import './rx-tempo-text.element';
 import './rx-ticker.element';
 
 @customElement('rx-metronome')
-export class RxMetronomeElement extends RxPlaySoundMixin(RxStateMixin(LitElement)) {
+export class RxMetronomeElement extends RxPlaySoundMixin(RxStateMixin(RxUnsubscribeMixin(LitElement))) {
   @property({type: Boolean})
   public isTicking: boolean;
 
@@ -31,20 +32,15 @@ export class RxMetronomeElement extends RxPlaySoundMixin(RxStateMixin(LitElement
 
   private tapTempoSubject$: Subject<void> = new Subject();
 
-  private unsubscribe$ = new Subject();
-
   /** @override */
   public connectedCallback() {
     super.connectedCallback();
 
-    this.connectToStateWorker();
     this.subscribeProps();
   }
 
   /** @override */
   public disconnectedCallback() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
     this.stateWorker.terminate();
     this.metronomeState$.complete();
     this.tapTempoSubject$.complete();
