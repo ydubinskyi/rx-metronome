@@ -1,12 +1,12 @@
-import {property} from 'lit-element';
-import {BehaviorSubject, Subject} from 'rxjs';
-import {bufferCount, distinctUntilChanged, filter, map, pluck, takeUntil, timeInterval} from 'rxjs/operators';
+import {LitElement} from 'lit-element';
+import {BehaviorSubject} from 'rxjs';
+import {distinctUntilChanged, pluck} from 'rxjs/operators';
 
 import {initState} from './constants';
 import {Command, Constructor, IMetronomeState} from './types';
 
-export function RxStateMixin<TBase extends Constructor>(Base: TBase) {
-  return class extends Base {
+export function RxStateMixin<TBase extends Constructor<LitElement>>(Base: TBase) {
+  class Mixin extends Base {
     public metronomeState$: BehaviorSubject<IMetronomeState> = new BehaviorSubject(initState);
     public stateWorker: Worker;
 
@@ -25,5 +25,7 @@ export function RxStateMixin<TBase extends Constructor>(Base: TBase) {
         this.metronomeState$.next(event.data);
       };
     }
-  };
+  }
+
+  return Mixin;
 }
