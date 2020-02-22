@@ -3,13 +3,12 @@ import {customElement, html, LitElement, property} from 'lit-element';
 import '@material/mwc-icon-button';
 import '@material/mwc-top-app-bar';
 
-import {version} from '../package.json';
-import './components/metronome/rx-metronome.element';
+import '../metronome/rx-metronome.element';
 
-import {styles} from './app.styles';
+import {styles} from './root.styles';
 
-@customElement('my-app')
-export class MyAppElement extends LitElement {
+@customElement('app-root')
+export class AppRootElement extends LitElement {
   @property({type: Boolean, reflect: true, attribute: 'dark-theme'})
   public darkTheme = true;
 
@@ -20,6 +19,12 @@ export class MyAppElement extends LitElement {
     localStorage.setItem('theme', this.darkTheme ? 'dark' : 'bright');
   }
 
+  public changeThemeColor(color: string) {
+    const metaThemeColor = document.querySelector('meta[name=theme-color]');
+    metaThemeColor.setAttribute('content', color);
+  }
+
+  /** @override */
   public firstUpdated() {
     const savedTheme = localStorage.getItem('theme') || 'dark';
 
@@ -46,13 +51,8 @@ export class MyAppElement extends LitElement {
       </div>
       <div class="version">
         Made with ❤ by <a href="https://github.com/ydubinskyi" target="_blank">@ydubinskyi</a> <br />
-        ver. ${version}
+        ver. 0.1.0
       </div>
     `;
-  }
-
-  private changeThemeColor(color: string) {
-    const metaThemeColor = document.querySelector('meta[name=theme-color]');
-    metaThemeColor.setAttribute('content', color);
   }
 }

@@ -1,15 +1,15 @@
 import {expect} from '@open-wc/testing';
 
-import {MyAppElement} from './app.element';
+import {AppRootElement} from './root.element';
 
 describe('my-app', () => {
-  let element: MyAppElement;
+  let element: AppRootElement;
 
   beforeEach(() => {
-    element = new MyAppElement();
+    element = new AppRootElement();
   });
 
-  it('works', async () => {
+  it('works', () => {
     expect(element).to.be.ok;
   });
 });

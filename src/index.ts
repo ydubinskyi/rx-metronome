@@ -1,2 +1,2 @@
-import './app.element';
+import './components/root/root.element';
 import './style.css';
