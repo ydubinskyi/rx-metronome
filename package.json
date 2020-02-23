@@ -6,7 +6,6 @@
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.dev.js --port 4200",
     "build": "webpack --config webpack.prod.js",
-    "build:tests": "tsc --build tsconfig.json",
     "deploy": "npm run build && firebase deploy",
     "test": "karma start --coverage",
     "test:watch": "karma start --auto-watch=true --single-run=false"
