@@ -1,7 +1,7 @@
 import {BehaviorSubject, combineLatest, fromEvent, merge, NEVER, Observable, timer} from 'rxjs';
 import {distinctUntilChanged, map, pluck, scan, shareReplay, switchMap, withLatestFrom} from 'rxjs/operators';
 
-import {initState} from '../constants';
+import {INIT_STATE} from '../constants';
 import {Command} from '../types';
 import {IMetronomeState} from '../types/metronome-state.interface';
 
@@ -9,7 +9,7 @@ export class RxMetronomeStateWorker {
   public context: Worker;
 
   public commands$: Observable<Command>;
-  public metronomeStateCommandBus$: BehaviorSubject<Command> = new BehaviorSubject(initState);
+  public metronomeStateCommandBus$: BehaviorSubject<Command> = new BehaviorSubject(INIT_STATE);
   public metronomeState$: Observable<IMetronomeState>;
   public isTicking$: Observable<boolean>;
   public beatsPerMinute$: Observable<number>;

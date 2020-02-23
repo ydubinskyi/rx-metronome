@@ -2,12 +2,12 @@ import {LitElement} from 'lit-element';
 import {BehaviorSubject} from 'rxjs';
 import {distinctUntilChanged, pluck} from 'rxjs/operators';
 
-import {initState} from '../constants';
+import {INIT_STATE} from '../constants';
 import {Command, Constructor, IMetronomeState} from '../types';
 
 export function RxStateMixin<TBase extends Constructor<LitElement>>(Base: TBase) {
   class Mixin extends Base {
-    public metronomeState$: BehaviorSubject<IMetronomeState> = new BehaviorSubject(initState);
+    public metronomeState$: BehaviorSubject<IMetronomeState> = new BehaviorSubject(INIT_STATE);
     public stateWorker: Worker;
 
     public isTicking$ = this.metronomeState$.pipe(pluck('isTicking'), distinctUntilChanged<boolean>());

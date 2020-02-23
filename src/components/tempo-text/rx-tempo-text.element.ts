@@ -1,6 +1,6 @@
 import {css, customElement, html, LitElement, property} from 'lit-element';
 
-import {tempoTerms} from '../../constants';
+import {TEMPO_TERMS} from '../../constants';
 
 @customElement('rx-tempo-text')
 export class RxTempoTextElement extends LitElement {
@@ -10,8 +10,7 @@ export class RxTempoTextElement extends LitElement {
   public get bmpText(): string {
     const bpm = this.beatsPerMinute;
 
-    return tempoTerms
-      .filter((term) => bpm >= term.from && bpm <= term.to)
+    return TEMPO_TERMS.filter((term) => bpm >= term.from && bpm <= term.to)
       .map((term) => term.name)
       .join(', ');
   }

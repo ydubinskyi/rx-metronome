@@ -1,4 +1,4 @@
-export const initState = {
+export const INIT_STATE = {
   beatsPerBar: 4,
   beatsPerMinute: 164,
   counter: 0,
@@ -10,7 +10,7 @@ export const MAX_TEMPO_VALUE = 300;
 export const TICK_FREQUENCY = 880;
 export const TACK_FREQUENCY = 440;
 
-export const tempoTerms = [
+export const TEMPO_TERMS = [
   {
     from: 0,
     to: 20,

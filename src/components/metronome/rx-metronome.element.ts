@@ -3,7 +3,7 @@ import {customElement, eventOptions, html, LitElement, property} from 'lit-eleme
 import {Subject} from 'rxjs';
 import {bufferCount, filter, map, takeUntil, timeInterval} from 'rxjs/operators';
 
-import {initState, MAX_TEMPO_VALUE, MIN_TEMPO_VALUE, TACK_FREQUENCY, TICK_FREQUENCY} from '../../constants';
+import {INIT_STATE, MAX_TEMPO_VALUE, MIN_TEMPO_VALUE, TACK_FREQUENCY, TICK_FREQUENCY} from '../../constants';
 import {RxPlaySoundMixin, RxStateMixin, RxUnsubscribeMixin} from '../../mixins';
 import {HTMLElementEvent} from '../../types';
 
@@ -60,7 +60,7 @@ export class RxMetronomeElement extends RxPlaySoundMixin(RxStateMixin(RxUnsubscr
 
   @eventOptions({passive: true})
   public onResetClick() {
-    this.dispatchCommand(initState);
+    this.dispatchCommand(INIT_STATE);
   }
 
   @eventOptions({passive: true})
@@ -96,7 +96,7 @@ export class RxMetronomeElement extends RxPlaySoundMixin(RxStateMixin(RxUnsubscr
     let beatsPerMinute = Number(value);
 
     if (beatsPerMinute === undefined) {
-      beatsPerMinute = initState.beatsPerMinute;
+      beatsPerMinute = INIT_STATE.beatsPerMinute;
     } else if (beatsPerMinute < MIN_TEMPO_VALUE) {
       beatsPerMinute = MIN_TEMPO_VALUE;
     } else if (beatsPerMinute > MAX_TEMPO_VALUE) {
