@@ -1,7 +1,12 @@
 {
-  "extends": ["tslint:recommended", "tslint-plugin-prettier", "tslint-config-prettier"],
+  "extends": [
+    "tslint:recommended",
+    "tslint-plugin-prettier",
+    "tslint-config-prettier"
+  ],
   "rules": {
     "prettier": true,
-    "object-literal-sort-keys": false
+    "object-literal-sort-keys": false,
+    "no-unused-expression": false
   }
 }
