@@ -24,4 +24,14 @@ describe('RxPlaySoundMixin', () => {
   it('works', () => {
     expect(instance).to.be.ok;
   });
+
+  describe('disconnectedCallback', () => {
+    it('should stop audio context', () => {
+      stub(instance.audioContext, 'close');
+
+      instance.disconnectedCallback();
+
+      expect(instance.audioContext.close).to.be.called;
+    });
+  });
 });
