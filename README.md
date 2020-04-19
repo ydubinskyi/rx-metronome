@@ -1,5 +1,7 @@
 # rx-metronome
 
+![CI](https://github.com/ydubinskyi/rx-metronome/workflows/CI/badge.svg?branch=master)
+
 Basic metronome app.
 
 Made using LitElement, RxJS, WebWorkers and ServiceWorkers.
