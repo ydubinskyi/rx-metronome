@@ -7,6 +7,7 @@
     "start": "webpack-dev-server --open --config webpack.dev.js --port 4200",
     "build": "webpack --config webpack.prod.js",
     "deploy": "npm run build && firebase deploy",
+    "lint": "tslint --project ./tsconfig.json --config ./tslint.json",
     "test": "karma start",
     "test:watch": "karma start --auto-watch=true --single-run=false"
   },
