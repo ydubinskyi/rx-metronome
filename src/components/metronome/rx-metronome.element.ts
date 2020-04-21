@@ -9,6 +9,8 @@ import {HTMLElementEvent} from '../../types';
 
 import '@material/mwc-button';
 import '@material/mwc-icon-button';
+import '@material/mwc-list/mwc-list-item.js';
+import '@material/mwc-select';
 import '@material/mwc-textfield';
 import '../tempo-pendulum/rx-tempo-pendulum.element';
 import '../tempo-text/rx-tempo-text.element';
@@ -131,21 +133,26 @@ export class RxMetronomeElement extends RxPlaySoundMixin(RxStateMixin(RxUnsubscr
         <mwc-textfield
           type="number"
           outlined
+          required
           label="Beats per minute"
           min="${MIN_TEMPO_VALUE}"
           max="${MAX_TEMPO_VALUE}"
           .value="${this.beatsPerMinute.toString()}"
           @change="${this.onBeatsPerMinuteChange}"
         ></mwc-textfield>
-        <mwc-textfield
-          type="number"
-          min="2"
-          max="6"
+        <mwc-select
           outlined
+          required
           label="Beats per bar"
-          .value="${this.beatsPerBar.toString()}"
           @change="${this.onBeatsPerBarChange}"
-        ></mwc-textfield>
+          .value="${this.beatsPerBar.toString()}"
+        >
+          <mwc-list-item value="2">2</mwc-list-item>
+          <mwc-list-item value="3">3</mwc-list-item>
+          <mwc-list-item value="4">4</mwc-list-item>
+          <mwc-list-item value="5">5</mwc-list-item>
+          <mwc-list-item value="6">6</mwc-list-item>
+        </mwc-select>
       </div>
       <div class="control-buttons">
         <mwc-button
