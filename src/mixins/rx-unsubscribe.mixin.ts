@@ -3,17 +3,21 @@ import { Subject } from 'rxjs';
 
 import { Constructor } from '../types';
 
-export function RxUnsubscribeMixin<TBase extends Constructor<LitElement>>(Base: TBase) {
-  class Mixin extends Base {
+export declare class RxUnsubscribeMixinInterface {
+  public unsubscribe$: Subject<unknown>;
+}
+
+export function RxUnsubscribeMixin<TBase extends Constructor<LitElement>>(superClass: TBase) {
+  class Mixin extends superClass {
     public unsubscribe$ = new Subject();
 
     public disconnectedCallback() {
-      this.unsubscribe$.next();
+      this.unsubscribe$.next(null);
       this.unsubscribe$.complete();
 
       super.disconnectedCallback();
     }
   }
 
-  return Mixin;
+  return Mixin as Constructor<RxUnsubscribeMixinInterface> & TBase;
 }

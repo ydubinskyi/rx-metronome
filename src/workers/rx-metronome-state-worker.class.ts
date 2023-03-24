@@ -1,15 +1,15 @@
-import {BehaviorSubject, combineLatest, fromEvent, merge, NEVER, Observable, timer} from 'rxjs';
-import {distinctUntilChanged, map, pluck, scan, shareReplay, switchMap, withLatestFrom} from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, fromEvent, merge, NEVER, Observable, timer } from 'rxjs';
+import { distinctUntilChanged, map, pluck, scan, shareReplay, switchMap, withLatestFrom } from 'rxjs/operators';
 
-import {INIT_STATE} from '../constants';
-import {Command} from '../types';
-import {IMetronomeState} from '../types/metronome-state.interface';
+import { INIT_STATE } from '../constants';
+import { Command } from '../types';
+import { IMetronomeState } from '../types/metronome-state.interface';
 
 export class RxMetronomeStateWorker {
   public context: Worker;
 
   public commands$: Observable<Command>;
-  public metronomeStateCommandBus$: BehaviorSubject<Command> = new BehaviorSubject(INIT_STATE);
+  public metronomeStateCommandBus$: BehaviorSubject<Command> = new BehaviorSubject(INIT_STATE as Command);
   public metronomeState$: Observable<IMetronomeState>;
   public isTicking$: Observable<boolean>;
   public beatsPerMinute$: Observable<number>;
@@ -19,9 +19,9 @@ export class RxMetronomeStateWorker {
   constructor(context: Worker) {
     this.context = context;
 
-    this.commands$ = fromEvent<{data: Command}>(this.context, 'message').pipe(map((event) => event.data));
+    this.commands$ = fromEvent<{ data: Command }>(this.context, 'message').pipe(map((event) => event.data));
     this.metronomeState$ = merge(this.metronomeStateCommandBus$, this.commands$).pipe(
-      scan((metronomeState: IMetronomeState, command) => ({...metronomeState, ...command})),
+      scan((metronomeState: any, command: any) => ({ ...metronomeState, ...command })),
       shareReplay(1),
     );
     this.isTicking$ = this.metronomeState$.pipe(pluck('isTicking'), distinctUntilChanged<boolean>());
@@ -33,7 +33,7 @@ export class RxMetronomeStateWorker {
   }
 
   public subscribeOnState() {
-    this.counterUpdateTrigger$.pipe(withLatestFrom(this.metronomeState$)).subscribe(([_, {beatsPerBar, counter}]) => {
+    this.counterUpdateTrigger$.pipe(withLatestFrom(this.metronomeState$)).subscribe(([_, { beatsPerBar, counter }]) => {
       this.metronomeStateCommandBus$.next({
         counter: counter < beatsPerBar ? counter + 1 : 1,
       });

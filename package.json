@@ -14,7 +14,8 @@
     "deploy": "npm run build && firebase deploy",
     "lint": "tslint --project ./tsconfig.json --config ./tslint.json",
     "test": "karma start",
-    "test:watch": "karma start --auto-watch=true --single-run=false"
+    "test:watch": "karma start --auto-watch=true --single-run=false",
+    "typecheck": "tsc --project ./tsconfig.json --noEmit"
   },
   "repository": {
     "type": "git",

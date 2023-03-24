@@ -2,8 +2,12 @@ import { LitElement } from 'lit';
 
 import { Constructor } from '../types';
 
-export function RxPlaySoundMixin<TBase extends Constructor<LitElement>>(Base: TBase) {
-  class Mixin extends Base {
+export declare class RxPlaySoundMixinInterface {
+  public playSound(frequency: number, length: number): void;
+}
+
+export function RxPlaySoundMixin<TBase extends Constructor<LitElement>>(superClass: TBase) {
+  class Mixin extends superClass {
     private audioContext = new AudioContext();
 
     /** @override */
@@ -13,7 +17,7 @@ export function RxPlaySoundMixin<TBase extends Constructor<LitElement>>(Base: TB
       super.disconnectedCallback();
     }
 
-    protected playSound(frequency: number, length: number) {
+    public playSound(frequency: number, length: number) {
       const { currentTime, destination } = this.audioContext;
       const gainNode = this.audioContext.createGain();
       const oscillator = this.audioContext.createOscillator();
@@ -33,5 +37,5 @@ export function RxPlaySoundMixin<TBase extends Constructor<LitElement>>(Base: TB
     }
   }
 
-  return Mixin;
+  return Mixin as Constructor<RxPlaySoundMixinInterface> & TBase;
 }

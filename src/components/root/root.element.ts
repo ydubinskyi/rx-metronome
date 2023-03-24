@@ -22,7 +22,7 @@ export class AppRootElement extends LitElement {
 
   public changeThemeColor(color: string) {
     const metaThemeColor = document.querySelector('meta[name=theme-color]');
-    metaThemeColor.setAttribute('content', color);
+    metaThemeColor?.setAttribute('content', color);
   }
 
   /** @override */
