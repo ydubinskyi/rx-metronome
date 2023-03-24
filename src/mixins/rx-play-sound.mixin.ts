@@ -1,6 +1,6 @@
-import {LitElement} from 'lit-element';
+import { LitElement } from 'lit';
 
-import {Constructor} from '../types';
+import { Constructor } from '../types';
 
 export function RxPlaySoundMixin<TBase extends Constructor<LitElement>>(Base: TBase) {
   class Mixin extends Base {
@@ -14,7 +14,7 @@ export function RxPlaySoundMixin<TBase extends Constructor<LitElement>>(Base: TB
     }
 
     protected playSound(frequency: number, length: number) {
-      const {currentTime, destination} = this.audioContext;
+      const { currentTime, destination } = this.audioContext;
       const gainNode = this.audioContext.createGain();
       const oscillator = this.audioContext.createOscillator();
 

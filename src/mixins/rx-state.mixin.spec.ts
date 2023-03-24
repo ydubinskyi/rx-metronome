@@ -1,8 +1,8 @@
-import {expect} from '@open-wc/testing';
-import {restore, stub} from 'sinon';
+import { expect } from '@open-wc/testing';
+import { restore, stub } from 'sinon';
 
-import {BaseClass} from '../test-utils';
-import {RxStateMixin} from './rx-state.mixin';
+import { BaseClass } from '../test-utils';
+import { RxStateMixin } from './rx-state.mixin';
 
 class ClassWithMixin extends RxStateMixin(BaseClass as any) {
   constructor() {

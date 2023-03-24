@@ -1,15 +1,16 @@
-import {css, customElement, html, LitElement, property, PropertyValues} from 'lit-element';
-import {styleMap} from 'lit-html/directives/style-map';
+import { css, html, LitElement, PropertyValues } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+import { styleMap } from 'lit/directives/style-map.js';
 
 @customElement('rx-tempo-pendulum')
 export class RxTempoTextElement extends LitElement {
-  @property({type: Number})
+  @property({ type: Number })
   public counter: number;
 
-  @property({type: Number})
+  @property({ type: Number })
   public beatsPerMinute: number;
 
-  @property({attribute: false})
+  @property({ attribute: false })
   public tick: boolean = false;
 
   /** @override */

@@ -1,7 +1,7 @@
-import {expect} from '@open-wc/testing';
-import {restore, stub} from 'sinon';
+import { expect } from '@open-wc/testing';
+import { restore, stub } from 'sinon';
 
-import {AppRootElement} from './root.element';
+import { AppRootElement } from './root.element';
 
 describe('my-app', () => {
   let element: AppRootElement;

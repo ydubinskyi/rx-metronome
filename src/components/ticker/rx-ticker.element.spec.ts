@@ -1,6 +1,6 @@
-import {expect} from '@open-wc/testing';
+import { expect } from '@open-wc/testing';
 
-import {RxTickerElement} from './rx-ticker.element';
+import { RxTickerElement } from './rx-ticker.element';
 
 describe('rx-ticker', () => {
   let element: RxTickerElement;

@@ -1,8 +1,8 @@
-import {expect} from '@open-wc/testing';
-import {restore, stub} from 'sinon';
+import { expect } from '@open-wc/testing';
+import { restore, stub } from 'sinon';
 
-import {BaseClass} from '../test-utils';
-import {RxUnsubscribeMixin} from './rx-unsubscribe.mixin';
+import { BaseClass } from '../test-utils';
+import { RxUnsubscribeMixin } from './rx-unsubscribe.mixin';
 
 class ClassWithMixin extends RxUnsubscribeMixin(BaseClass as any) {
   constructor() {

@@ -1,11 +1,12 @@
-import {css, customElement, html, LitElement, property} from 'lit-element';
+import { css, html, LitElement } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
 @customElement('rx-ticker')
 export class RxTickerElement extends LitElement {
-  @property({type: Number})
+  @property({ type: Number })
   public beatsPerBar: number;
 
-  @property({type: Number})
+  @property({ type: Number })
   public counter: number;
 
   get items() {

@@ -1,9 +1,9 @@
-import {LitElement} from 'lit-element';
-import {BehaviorSubject} from 'rxjs';
-import {distinctUntilChanged, pluck} from 'rxjs/operators';
+import { LitElement } from 'lit';
+import { BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged, pluck } from 'rxjs/operators';
 
-import {INIT_STATE} from '../constants';
-import {Command, Constructor, IMetronomeState} from '../types';
+import { INIT_STATE } from '../constants';
+import { Command, Constructor, IMetronomeState } from '../types';
 
 export function RxStateMixin<TBase extends Constructor<LitElement>>(Base: TBase) {
   class Mixin extends Base {
@@ -27,7 +27,7 @@ export function RxStateMixin<TBase extends Constructor<LitElement>>(Base: TBase)
     }
 
     private connectToStateWorker() {
-      this.stateWorker = new Worker('../workers/rx-state.worker.ts', {type: 'module'});
+      this.stateWorker = new Worker(new URL('../workers/rx-state.worker.ts', import.meta.url), { type: 'module' });
       this.stateWorker.onmessage = (event) => {
         this.metronomeState$.next(event.data);
       };

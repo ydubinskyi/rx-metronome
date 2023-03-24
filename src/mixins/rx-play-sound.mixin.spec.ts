@@ -1,8 +1,8 @@
-import {expect} from '@open-wc/testing';
-import {restore, stub} from 'sinon';
+import { expect } from '@open-wc/testing';
+import { restore, stub } from 'sinon';
 
-import {BaseClass} from '../test-utils';
-import {RxPlaySoundMixin} from './rx-play-sound.mixin';
+import { BaseClass } from '../test-utils';
+import { RxPlaySoundMixin } from './rx-play-sound.mixin';
 
 class ClassWithMixin extends RxPlaySoundMixin(BaseClass as any) {
   constructor() {
