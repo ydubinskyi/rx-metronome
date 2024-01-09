@@ -1,6 +1,6 @@
 import { ReactiveController, ReactiveControllerHost } from 'lit';
 import { BehaviorSubject } from 'rxjs';
-import { pluck, distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, pluck } from 'rxjs/operators';
 
 import { INIT_STATE } from '../constants';
 import { Command, IMetronomeState } from '../types';

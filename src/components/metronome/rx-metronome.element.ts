@@ -1,14 +1,14 @@
-import { TextField } from '@material/mwc-textfield';
 import { html, LitElement } from 'lit';
 import { customElement, eventOptions, property } from 'lit/decorators.js';
 import { Subject } from 'rxjs';
 import { bufferCount, filter, map, takeUntil, timeInterval } from 'rxjs/operators';
+import { TextField } from '@material/mwc-textfield';
 
 import { INIT_STATE, MAX_TEMPO_VALUE, MIN_TEMPO_VALUE, TACK_FREQUENCY, TICK_FREQUENCY } from '../../constants';
 import { RxPlaySoundController, RxStateController } from '../../controllers';
 import { RxUnsubscribeMixin } from '../../mixins';
-
 import { HTMLElementEvent } from '../../types';
+import { styles } from './rx-metronome.styles';
 
 import '@material/mwc-button';
 import '@material/mwc-icon-button';
@@ -18,8 +18,6 @@ import '@material/mwc-textfield';
 import '../tempo-pendulum/rx-tempo-pendulum.element';
 import '../tempo-text/rx-tempo-text.element';
 import '../ticker/rx-ticker.element';
-
-import { styles } from './rx-metronome.styles';
 
 @customElement('rx-metronome')
 export class RxMetronomeElement extends RxUnsubscribeMixin(LitElement) {

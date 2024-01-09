@@ -1,12 +1,11 @@
 import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
+import { styles } from './root.styles';
+
 import '@material/mwc-icon-button';
 import '@material/mwc-top-app-bar';
-
 import '../metronome/rx-metronome.element';
-
-import { styles } from './root.styles';
 
 @customElement('app-root')
 export class AppRootElement extends LitElement {
