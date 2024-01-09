@@ -12,7 +12,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "deploy": "npm run build && firebase deploy",
-    "lint": "tslint --project ./tsconfig.json --config ./tslint.json",
+    "lint": "eslint .",
     "test": "karma start",
     "test:watch": "karma start --auto-watch=true --single-run=false",
     "typecheck": "tsc --project ./tsconfig.json --noEmit"
