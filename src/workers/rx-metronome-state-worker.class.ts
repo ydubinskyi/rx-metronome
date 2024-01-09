@@ -21,6 +21,7 @@ export class RxMetronomeStateWorker {
 
     this.commands$ = fromEvent<{ data: Command }>(this.context, 'message').pipe(map((event) => event.data));
     this.metronomeState$ = merge(this.metronomeStateCommandBus$, this.commands$).pipe(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       scan((metronomeState: any, command: any) => ({ ...metronomeState, ...command })),
       shareReplay(1),
     );
@@ -33,6 +34,7 @@ export class RxMetronomeStateWorker {
   }
 
   public subscribeOnState() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     this.counterUpdateTrigger$.pipe(withLatestFrom(this.metronomeState$)).subscribe(([_, { beatsPerBar, counter }]) => {
       this.metronomeStateCommandBus$.next({
         counter: counter < beatsPerBar ? counter + 1 : 1,
