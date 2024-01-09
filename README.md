@@ -8,8 +8,8 @@ Made using LitElement, RxJS, WebWorkers and ServiceWorkers.
 
 ## Development
 
-`npm run start` - start dev server
+`yarn start` - start dev server
 
-`npm run build` - build
+`yarn build` - build
 
-`npm run deploy` - deploy app to Firebase (need to configure and login to firebase cli first)
+`yarn deploy` - deploy app to Firebase (need to configure and login to firebase cli first)

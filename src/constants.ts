@@ -3,7 +3,7 @@ export const INIT_STATE = {
   beatsPerMinute: 164,
   counter: 0,
   isTicking: false,
-};
+} as const;
 
 export const MIN_TEMPO_VALUE = 10;
 export const MAX_TEMPO_VALUE = 300;

@@ -1,10 +1,11 @@
-import {css, customElement, html, LitElement, property} from 'lit-element';
+import { css, html, LitElement } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
-import {TEMPO_TERMS} from '../../constants';
+import { TEMPO_TERMS } from '../../constants';
 
 @customElement('rx-tempo-text')
 export class RxTempoTextElement extends LitElement {
-  @property({type: Number})
+  @property({ type: Number })
   public beatsPerMinute: number;
 
   public get bmpText(): string {

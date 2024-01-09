@@ -1,15 +1,15 @@
-import {customElement, html, LitElement, property} from 'lit-element';
+import { html, LitElement } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+
+import { styles } from './root.styles';
 
 import '@material/mwc-icon-button';
 import '@material/mwc-top-app-bar';
-
 import '../metronome/rx-metronome.element';
-
-import {styles} from './root.styles';
 
 @customElement('app-root')
 export class AppRootElement extends LitElement {
-  @property({type: Boolean, reflect: true, attribute: 'dark-theme'})
+  @property({ type: Boolean, reflect: true, attribute: 'dark-theme' })
   public darkTheme = true;
 
   public toggleDarkMode(): void {
@@ -21,7 +21,7 @@ export class AppRootElement extends LitElement {
 
   public changeThemeColor(color: string) {
     const metaThemeColor = document.querySelector('meta[name=theme-color]');
-    metaThemeColor.setAttribute('content', color);
+    metaThemeColor?.setAttribute('content', color);
   }
 
   /** @override */

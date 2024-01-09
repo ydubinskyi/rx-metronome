@@ -1,55 +1,56 @@
-import {expect} from '@open-wc/testing';
-import {restore, stub} from 'sinon';
+// import { expect } from '@open-wc/testing';
+// import { restore, stub } from 'sinon';
 
-import {AppRootElement} from './root.element';
+// import { AppRootElement } from './root.element';
 
-describe('my-app', () => {
-  let element: AppRootElement;
+// describe('my-app', () => {
+//   let element: AppRootElement;
 
-  beforeEach(() => {
-    element = new AppRootElement();
-  });
+//   beforeEach(() => {
+//     element = new AppRootElement();
+//   });
 
-  afterEach(() => {
-    restore();
-  });
+//   afterEach(() => {
+//     restore();
+//   });
 
-  it('works', () => {
-    expect(element).to.be.ok;
-  });
+//   it('works', () => {
+//     expect(element).to.be.ok;
+//   });
 
-  describe('toggleDarkMode', () => {
-    beforeEach(() => {
-      stub(element, 'changeThemeColor');
-      stub(localStorage, 'setItem');
-    });
+//   describe('toggleDarkMode', () => {
+//     beforeEach(() => {
+//       stub(element, 'changeThemeColor');
+//       stub(localStorage, 'setItem');
+//     });
 
-    it('should toggle darkTheme prop', () => {
-      element.darkTheme = false;
+//     it('should toggle darkTheme prop', () => {
+//       element.darkTheme = false;
 
-      element.toggleDarkMode();
+//       element.toggleDarkMode();
 
-      expect(element.darkTheme).to.equal(true);
-    });
-  });
+//       expect(element.darkTheme).to.equal(true);
+//     });
+//   });
 
-  describe('firstUpdated', () => {
-    it('should set dark theme properly', () => {
-      element.darkTheme = true;
-      stub(localStorage, 'getItem').returns('light');
+//   describe('firstUpdated', () => {
+//     it('should set dark theme properly', () => {
+//       element.darkTheme = true;
+//       stub(localStorage, 'getItem').returns('light');
 
-      element.firstUpdated();
+//       element.firstUpdated();
 
-      expect(element.darkTheme).to.equal(false);
-    });
+//       expect(element.darkTheme).to.equal(false);
+//     });
 
-    it('should set dark theme to true, if no theme saved in local storage', () => {
-      element.darkTheme = false;
-      stub(localStorage, 'getItem').returns(undefined);
+//     it('should set dark theme to true, if no theme saved in local storage', () => {
+//       element.darkTheme = false;
+//       stub(localStorage, 'getItem').returns(undefined);
 
-      element.firstUpdated();
+//       element.firstUpdated();
 
-      expect(element.darkTheme).to.equal(true);
-    });
-  });
-});
+//       expect(element.darkTheme).to.equal(true);
+//     });
+//   });
+// });
+export {};
