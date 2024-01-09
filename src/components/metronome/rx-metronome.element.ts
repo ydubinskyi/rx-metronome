@@ -5,7 +5,9 @@ import { Subject } from 'rxjs';
 import { bufferCount, filter, map, takeUntil, timeInterval } from 'rxjs/operators';
 
 import { INIT_STATE, MAX_TEMPO_VALUE, MIN_TEMPO_VALUE, TACK_FREQUENCY, TICK_FREQUENCY } from '../../constants';
-import { RxPlaySoundMixin, RxStateMixin, RxUnsubscribeMixin } from '../../mixins';
+import { RxPlaySoundController, RxStateController } from '../../controllers';
+import { RxUnsubscribeMixin } from '../../mixins';
+
 import { HTMLElementEvent } from '../../types';
 
 import '@material/mwc-button';
@@ -20,7 +22,7 @@ import '../ticker/rx-ticker.element';
 import { styles } from './rx-metronome.styles';
 
 @customElement('rx-metronome')
-export class RxMetronomeElement extends RxPlaySoundMixin(RxStateMixin(RxUnsubscribeMixin(LitElement))) {
+export class RxMetronomeElement extends RxUnsubscribeMixin(LitElement) {
   @property({ type: Boolean })
   public isTicking: boolean;
 
@@ -33,6 +35,9 @@ export class RxMetronomeElement extends RxPlaySoundMixin(RxStateMixin(RxUnsubscr
   @property({ type: Number })
   public counter: number;
 
+  private playSoundController = new RxPlaySoundController(this);
+  private stateController = new RxStateController(this);
+
   private tapTempoSubject$: Subject<void> = new Subject();
 
   /** @override */
@@ -44,8 +49,8 @@ export class RxMetronomeElement extends RxPlaySoundMixin(RxStateMixin(RxUnsubscr
 
   /** @override */
   public disconnectedCallback() {
-    this.stateWorker.terminate();
-    this.metronomeState$.complete();
+    this.stateController.stateWorker.terminate();
+    this.stateController.metronomeState$.complete();
     this.tapTempoSubject$.complete();
 
     super.disconnectedCallback();
@@ -53,17 +58,17 @@ export class RxMetronomeElement extends RxPlaySoundMixin(RxStateMixin(RxUnsubscr
 
   @eventOptions({ passive: true })
   public onStartClick() {
-    this.dispatchCommand({ isTicking: true });
+    this.stateController.dispatchCommand({ isTicking: true });
   }
 
   @eventOptions({ passive: true })
   public onStopClick() {
-    this.dispatchCommand({ isTicking: false });
+    this.stateController.dispatchCommand({ isTicking: false });
   }
 
   @eventOptions({ passive: true })
   public onResetClick() {
-    this.dispatchCommand(INIT_STATE);
+    this.stateController.dispatchCommand(INIT_STATE);
   }
 
   @eventOptions({ passive: true })
@@ -74,25 +79,25 @@ export class RxMetronomeElement extends RxPlaySoundMixin(RxStateMixin(RxUnsubscr
   @eventOptions({ passive: true })
   public onPlusOneClick() {
     if (this.beatsPerMinute < MAX_TEMPO_VALUE) {
-      this.dispatchCommand({ beatsPerMinute: this.beatsPerMinute + 1 });
+      this.stateController.dispatchCommand({ beatsPerMinute: this.beatsPerMinute + 1 });
     }
   }
 
   @eventOptions({ passive: true })
   public onMinusOneClick() {
     if (this.beatsPerMinute > MIN_TEMPO_VALUE) {
-      this.dispatchCommand({ beatsPerMinute: this.beatsPerMinute - 1 });
+      this.stateController.dispatchCommand({ beatsPerMinute: this.beatsPerMinute - 1 });
     }
   }
 
   @eventOptions({ passive: true })
   public onBeatsPerMinuteChange({ target: { value } }: HTMLElementEvent<TextField>) {
-    this.dispatchCommand({ beatsPerMinute: this.validateBeatsPerMinute(value) });
+    this.stateController.dispatchCommand({ beatsPerMinute: this.validateBeatsPerMinute(value) });
   }
 
   @eventOptions({ passive: true })
   public onBeatsPerBarChange({ target: { value } }: HTMLElementEvent<TextField>) {
-    this.dispatchCommand({ beatsPerBar: Number(value) });
+    this.stateController.dispatchCommand({ beatsPerBar: Number(value) });
   }
 
   public validateBeatsPerMinute(value: string | number): number {
@@ -176,14 +181,20 @@ export class RxMetronomeElement extends RxPlaySoundMixin(RxStateMixin(RxUnsubscr
   }
 
   private subscribeProps() {
-    this.isTicking$.pipe(takeUntil(this.unsubscribe$)).subscribe((value: boolean) => (this.isTicking = value));
-    this.beatsPerMinute$.pipe(takeUntil(this.unsubscribe$)).subscribe((value: number) => (this.beatsPerMinute = value));
-    this.beatsPerBar$.pipe(takeUntil(this.unsubscribe$)).subscribe((value: number) => (this.beatsPerBar = value));
-    this.counter$.pipe(takeUntil(this.unsubscribe$)).subscribe((value: number) => {
+    this.stateController.isTicking$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((value: boolean) => (this.isTicking = value));
+    this.stateController.beatsPerMinute$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((value: number) => (this.beatsPerMinute = value));
+    this.stateController.beatsPerBar$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((value: number) => (this.beatsPerBar = value));
+    this.stateController.counter$.pipe(takeUntil(this.unsubscribe$)).subscribe((value: number) => {
       this.counter = value;
 
       if (value !== 0) {
-        this.playSound(value === 1 ? TICK_FREQUENCY : TACK_FREQUENCY, 0.07);
+        this.playSoundController.playSound(value === 1 ? TICK_FREQUENCY : TACK_FREQUENCY, 0.07);
       }
     });
 
@@ -200,6 +211,6 @@ export class RxMetronomeElement extends RxPlaySoundMixin(RxStateMixin(RxUnsubscr
           return this.validateBeatsPerMinute(beatsPerMinute);
         }),
       )
-      .subscribe((beatsPerMinute) => this.dispatchCommand({ beatsPerMinute }));
+      .subscribe((beatsPerMinute) => this.stateController.dispatchCommand({ beatsPerMinute }));
   }
 }
