@@ -167,12 +167,8 @@ export class RxMetronomeElement extends RxUnsubscribeMixin(LitElement) {
           @click="${this.onTapTempoClick}"
         ></mwc-button>
         ${this.isTicking
-          ? html`
-              <mwc-button outlined label="stop" icon="stop" @click="${this.onStopClick}"> </mwc-button>
-            `
-          : html`
-              <mwc-button outlined label="start" icon="play_arrow" @click="${this.onStartClick}"> </mwc-button>
-            `}
+          ? html` <mwc-button outlined label="stop" icon="stop" @click="${this.onStopClick}"> </mwc-button> `
+          : html` <mwc-button outlined label="start" icon="play_arrow" @click="${this.onStartClick}"> </mwc-button> `}
         <mwc-button outlined label="Reset" icon="clear" @click="${this.onResetClick}"> </mwc-button>
       </div>
     `;

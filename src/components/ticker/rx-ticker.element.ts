@@ -47,12 +47,6 @@ export class RxTickerElement extends LitElement {
   }
 
   protected render() {
-    return html`
-      ${this.items.map(
-        (i) => html`
-          <div ?active="${i + 1 === this.counter}">${i + 1}</div>
-        `,
-      )}
-    `;
+    return html` ${this.items.map((i) => html` <div ?active="${i + 1 === this.counter}">${i + 1}</div> `)} `;
   }
 }
