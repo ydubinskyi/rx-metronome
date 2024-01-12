@@ -51,7 +51,7 @@ export class AppRootElement extends LitElement {
       </div>
       <div class="version">
         Made with ❤ by <a href="https://github.com/ydubinskyi" target="_blank">@ydubinskyi</a> <br />
-        ver. 1.0.1
+        ver. 2.0.0
       </div>
     `;
   }
