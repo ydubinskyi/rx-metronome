@@ -55,6 +55,7 @@ export const styles = css`
   mwc-button {
     --mdc-theme-primary: var(--primary-color);
     --mdc-theme-on-primary: var(--text-color);
+    --mdc-button-outline-color: var(--primary-color);
   }
 
   mwc-icon-button {
